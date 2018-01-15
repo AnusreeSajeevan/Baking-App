@@ -1,11 +1,6 @@
 package com.example.anu.bakingapp.volley;
 
 import android.app.Application;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -13,15 +8,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-import java.io.ByteArrayOutputStream;
 
 public class AppController extends Application {
 
-    public static final String TAG = AppController.class
+    private static final String TAG = AppController.class
             .getSimpleName();
 
     private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
 
     private static AppController mInstance;
 
