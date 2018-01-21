@@ -1,7 +1,21 @@
 package com.example.anu.bakingapp.utils;
 
-class NetworkUtils {
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
-    //the url where the recipe listing json is located
-    private static final String RECIPE_LISTING_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+public class NetworkUtils {
+
+    /**
+     * method to check network is available or not
+     * @param context the context instance
+     * @return true if network is available, otherwise return false
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

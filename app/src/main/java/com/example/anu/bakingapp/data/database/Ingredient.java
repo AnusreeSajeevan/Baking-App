@@ -1,10 +1,7 @@
 package com.example.anu.bakingapp.data.database;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+class Ingredient {
 
-@Entity(primaryKeys = {"recipe_id,ingredient"})
-public class Ingredient {
     private int recipe_id;
     private int quantity;
     private String measure;

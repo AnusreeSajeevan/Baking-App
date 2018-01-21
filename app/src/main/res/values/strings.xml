@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BakingApp</string>
+    <string name="no_internet_connection">No Internet Connection!!!\nSwipe Down To Refresh&#8230;</string>
+    <string name="fetching">Fetching Recipes!!!\nPlease Wait&#8230;</string>
+    <plurals name="step_count">
+        <item quantity="zero">%d steps</item>
+        <item quantity="one">%d step</item>
+        <item quantity="other">%d steps</item>
+    </plurals>
+    <string name="recipes">Recipes</string>
 </resources>
