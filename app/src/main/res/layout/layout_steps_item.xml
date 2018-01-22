@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_margin="@dimen/margin_20"
+        android:id="@+id/txt_brief_description"
+        android:textColor="@color/colorBlack"
+        android:drawablePadding="@dimen/margin_10"
+        tools:text="@string/steps"
+        android:drawableLeft="@drawable/ic_bullet_point"
+        android:drawableStart="@drawable/ic_bullet_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</android.support.v7.widget.CardView>
