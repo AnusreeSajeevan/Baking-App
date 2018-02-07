@@ -16,12 +16,15 @@
 
 package com.example.anu.bakingapp.utils;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.example.anu.bakingapp.AppExecutors;
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.database.BakingDatabase;
+import com.example.anu.bakingapp.data.database.Recipe;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
+import com.example.anu.bakingapp.ui.recipe.RecipeDetailsViewModelFactory;
 import com.example.anu.bakingapp.ui.recipe.RecipeViewModelFactory;
 
 /**
@@ -40,6 +43,11 @@ public class InjectorUtils {
     public static RecipeViewModelFactory provideRecipeActivityViewModelFactory(Context context) {
         BakingRepository repository = provideRepository(context.getApplicationContext());
         return new RecipeViewModelFactory(repository);
+    }
+
+    public static RecipeDetailsViewModelFactory provideRecipeDetailsActivityViewModelFactory(Context context) {
+        BakingRepository repository = provideRepository(context.getApplicationContext());
+        return new RecipeDetailsViewModelFactory(repository);
     }
 
 }

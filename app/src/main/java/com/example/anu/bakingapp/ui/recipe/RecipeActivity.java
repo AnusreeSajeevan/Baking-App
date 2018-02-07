@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,25 +32,25 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeActivity extends LifecycleActivity implements RecipeAdapter.RecipeOnClickListener {
+public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.RecipeOnClickListener {
 
     @BindView(R.id.recycler_view_recipes)
     RecyclerView recyclerViewRecipes;
     @BindView(R.id.txt_error)
     TextView txtError;
     @BindView(R.id.imageView)
-    ImageView imageView;
+    android.support.v7.widget.AppCompatImageView imageView;
     @BindView(R.id.layout_error)
     RelativeLayout layoutError;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
 
     private RecipeAdapter mRecipeAdapter;
     private static final String TAG = RecipeActivity.class.getSimpleName();
     private int mPosition = RecyclerView.NO_POSITION;
     private BroadcastReceiver broadcastReceiver;
+    public static final String KEY_RECIPE_ID = "recipe_id";
+    public static final String KEY_RECIPE = "recipe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +58,11 @@ public class RecipeActivity extends LifecycleActivity implements RecipeAdapter.R
         setContentView(R.layout.activity_recipe);
         ButterKnife.bind(this);
 
-        setupToolbar();
-
         RecipeViewModelFactory factory = InjectorUtils.provideRecipeActivityViewModelFactory(this);
         RecipeViewModel viewModel = ViewModelProviders.of(this, factory).get(RecipeViewModel.class);
 
         viewModel.getRecipeList().observe(this, newRecipes -> {
             mRecipeAdapter.setmRecipeList(newRecipes);
-
-
-//            if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
-//            recyclerViewRecipes.smoothScrollToPosition(mPosition);
-
             setViewsVisibility(newRecipes);
 
         });
@@ -93,14 +88,6 @@ public class RecipeActivity extends LifecycleActivity implements RecipeAdapter.R
     }
 
     /**
-     * method to set toolbar
-     */
-    private void setupToolbar() {
-        toolbar.setTitle(getResources().getString(R.string.recipes));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-    }
-
-    /**
      * method to toggle view's visibility
      *
      * @param newRecipes new recipe list
@@ -110,7 +97,8 @@ public class RecipeActivity extends LifecycleActivity implements RecipeAdapter.R
             swipeRefreshLayout.setRefreshing(false);
             layoutError.setVisibility(View.GONE);
             recyclerViewRecipes.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setEnabled(false);
+//            swipeRefreshLayout.setEnabled(false);
+            swipeRefreshLayout.setEnabled(true);
         } else {
             swipeRefreshLayout.setEnabled(true);
             if (NetworkUtils.isNetworkAvailable(this)) {
@@ -158,8 +146,11 @@ public class RecipeActivity extends LifecycleActivity implements RecipeAdapter.R
      * @param recipeId clicked recipe id
      */
     @Override
-    public void onRecipeClick(int recipeId) {
+    public void onRecipeClick(int  recipeId) {
         Toast.makeText(this, String.valueOf(recipeId), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(RecipeActivity.this, RecipeDetailsActivity.class);
+        i.putExtra(KEY_RECIPE_ID, recipeId);
+        startActivity(i);
     }
 
     @Override

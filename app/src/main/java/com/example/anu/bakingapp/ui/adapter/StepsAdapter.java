@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.model.Step;
+import com.example.anu.bakingapp.ui.recipe.Step;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
     }
 
     public interface OnStepClickListener{
-        void onStepClick(int clickedPos);
+        void onStepClick(int position);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
         holder.layoutMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stepClickListener.onStepClick(position);
+                stepClickListener.onStepClick(holder.getAdapterPosition());
             }
         });
     }

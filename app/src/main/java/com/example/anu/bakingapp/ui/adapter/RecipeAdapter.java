@@ -66,7 +66,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
             e.printStackTrace();
         }
 
-        holder.layoutMain.setOnClickListener(view -> mRecipeOnClickListener.onRecipeClick(holder.getAdapterPosition()));
+        holder.layoutMain.setOnClickListener(view -> mRecipeOnClickListener.onRecipeClick(recipe.getId()));
     }
 
 

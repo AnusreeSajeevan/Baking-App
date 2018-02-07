@@ -1,20 +1,22 @@
 package com.example.anu.bakingapp.ui;
 
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.model.Step;
+import com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity;
+import com.example.anu.bakingapp.ui.recipe.Step;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.anu.bakingapp.ui.RecipeDetailsActivity.EXTRA_STEPS;
+import static com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity.EXTRA_STEPS;
+
 
 public class StepDetailsActivity extends AppCompatActivity {
 

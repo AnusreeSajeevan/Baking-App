@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.model.Step;
 import com.example.anu.bakingapp.ui.adapter.StepsPagerAdapter;
+import com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity;
+import com.example.anu.bakingapp.ui.recipe.Step;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class StepDetailsMainFragment extends Fragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     Unbinder unbinder;
+    private boolean isTabletView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class StepDetailsMainFragment extends Fragment {
         if (null != getArguments()) {
             currentStepPos = getArguments().getInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, -1);
             stepList = getArguments().getParcelableArrayList(RecipeDetailsActivity.EXTRA_STEPS);
+            isTabletView = getArguments().getBoolean(RecipeDetailsActivity.EXTRA_STEPS);
         }
     }
 
@@ -52,7 +55,10 @@ public class StepDetailsMainFragment extends Fragment {
         viewPager.setAdapter(fragmentPagerAdapter);
         Log.d(TAG, "currentStepPos : " + currentStepPos);
         viewPager.setCurrentItem(currentStepPos);
-        getActivity().setTitle(stepList.get(currentStepPos).getShortDescription());
+
+        if (!isTabletView)
+            getActivity().setTitle(stepList.get(currentStepPos).getShortDescription());
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -61,7 +67,8 @@ public class StepDetailsMainFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                getActivity().setTitle(stepList.get(position).getShortDescription());
+                if (!isTabletView)
+                    getActivity().setTitle(stepList.get(position).getShortDescription());
             }
 
             @Override
@@ -85,5 +92,9 @@ public class StepDetailsMainFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public static void setParameters(int position){
+        currentStepPos = position;
     }
 }

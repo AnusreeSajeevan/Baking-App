@@ -4,15 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.anu.bakingapp.model.Step;
 import com.example.anu.bakingapp.ui.StepDetailsFragment;
+import com.example.anu.bakingapp.ui.recipe.Step;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Design on 04-02-2018.
- */
 
 public class StepsPagerAdapter extends FragmentPagerAdapter {
 

@@ -1,8 +1,10 @@
 package com.example.anu.bakingapp.data;
 
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import com.example.anu.bakingapp.AppExecutors;
+import com.example.anu.bakingapp.data.database.Ingredient;
 import com.example.anu.bakingapp.data.database.Recipe;
 import com.example.anu.bakingapp.data.database.RecipeDao;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
@@ -97,6 +99,13 @@ public class BakingRepository {
     public LiveData<List<Recipe>> getRecipeList(){
         initializeData();
         return recipeDao.getRecipes();
+    }
+
+    public LiveData<Recipe> getRecipeWithId(int recipeId){
+        initializeData();
+        Log.d("CheckRepoo","1");
+        Log.d("CheckRepoo","recipeDao.getRecipeWithId(recipeId) : "+recipeDao.getRecipeWithId(recipeId));
+        return recipeDao.getRecipeWithId(recipeId);
     }
 
     /**

@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<!--fragment layout that displays recipe details including ingredients and steps-->
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_margin="@dimen/margin_10"
-        android:orientation="vertical"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/text_size_ingredients_title"
-            android:id="@+id/txt_ingredients_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ingredients" />
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10"
-            tools:listitem="@layout/layout_ingredients_item"
-            android:id="@+id/recycler_view_ingredients"
+        <LinearLayout
+            android:layout_margin="@dimen/margin_10"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_marginTop="@dimen/margin_10"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/text_size_ingredients_title"
-            android:id="@+id/txt_steps_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/steps" />
+            <TextView
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_ingredients_title"
+                android:id="@+id/txt_ingredients_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10"
-            tools:listitem="@layout/layout_steps_item"
-            android:id="@+id/recycler_view_steps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-</ScrollView>
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="@dimen/margin_10"
+                tools:listitem="@layout/layout_ingredients_item"
+                android:id="@+id/recycler_view_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_10"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_size_ingredients_title"
+                android:id="@+id/txt_steps_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/steps" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                tools:listitem="@layout/layout_steps_item"
+                android:id="@+id/recycler_view_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

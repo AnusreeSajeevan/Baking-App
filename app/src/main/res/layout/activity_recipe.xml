@@ -5,24 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/swipeRefreshLayout"
-    tools:context="com.example.anu.bakingapp.ui.recipe.RecipeActivity">
+    tools:context=".ui.recipe.RecipeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.Toolbar
-            android:elevation="@dimen/cardview_default_elevation"
-            android:background="@color/colorPrimary"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+
         <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/toolbar"
             android:id="@+id/recycler_view_recipes"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:clipToPadding="false"
             android:padding="2dp"
-            android:layout_height="wrap_content"
             android:visibility="visible"
             tools:listitem="@layout/layout_recipe_item" />
 
@@ -38,29 +35,26 @@
             android:visibility="visible">
 
             <TextView
+                android:text="@string/fetching"
                 android:id="@+id/txt_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:gravity="center"
-                tools:text="Error message"
+                android:layout_below="@+id/imageView"
                 android:textColor="@color/colorBlack"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
-
+                tools:layout_editor_absoluteX="164dp"
+                tools:layout_editor_absoluteY="338dp" />
             <android.support.v7.widget.AppCompatImageView
+                android:layout_alignParentTop="true"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_error"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                app:srcCompat="@drawable/ic_no_connection"
-                tools:layout_editor_absoluteX="164dp"
-                tools:layout_editor_absoluteY="338dp" />
-        </RelativeLayout>
+                app:srcCompat="@drawable/ic_placeholder_icon_pink" />
 
+    </RelativeLayout>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -3,14 +3,18 @@ package com.example.anu.bakingapp.utils;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
+import com.example.anu.bakingapp.data.database.Ingredient;
 import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.ui.recipe.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BakingJsonUtils {
 
@@ -69,5 +73,57 @@ public class BakingJsonUtils {
     public static int getStepsCount(String steps) throws JSONException {
         JSONArray jsonArraySteps = new JSONArray(steps);
         return jsonArraySteps.length();
+    }
+
+    /**
+     * method to parse recipe details to get ingredients and steps
+     * @param ingredients
+     *
+//    public static /*List<Ingredient>*/
+    public static List<Ingredient> parseIngredients(String ingredients) throws JSONException {
+        Log.d("list",ingredients);
+        JSONArray jsonArrayIngredients = new JSONArray(ingredients);
+        List<Ingredient> ingredientList = new ArrayList<>();
+        for (int i = 0;i<jsonArrayIngredients.length();i++){
+            Log.d("list","i : " + i);
+            JSONObject jsonObject = jsonArrayIngredients.getJSONObject(i);
+            ingredientList.add(new Ingredient(
+                    jsonObject.getInt(KEY_INGREDIENTS_QUANTITY),
+                    jsonObject.getString(KEY_INGREDIENTS_MEASURE),
+                    jsonObject.getString(KEY_INGREDIENT)));
+        }
+        return ingredientList;
+    }
+    /**
+     * method to parse steps details to get steps
+     * @param steps
+     */
+    public static List<Step> parseSteps(String steps) throws JSONException {
+        JSONArray jsonArraySteps = new JSONArray(steps);
+        List<Step> stepsList = new ArrayList<>();
+        for (int i = 0;i<jsonArraySteps.length();i++){
+            Log.d(TAG, "i : " + i);
+            JSONObject jsonObject = jsonArraySteps.getJSONObject(i);
+            String video = null;
+            String thumbNail = null;
+
+            /*
+            check for null video and thumbnail
+            */
+
+            if (null != jsonObject.getString(KEY_STEPS_VIDEO_URL))
+                video = jsonObject.getString(KEY_STEPS_VIDEO_URL);
+
+            if (null != jsonObject.getString(KEY_STEPS_THUMBNAIL_URL))
+                thumbNail = jsonObject.getString(KEY_STEPS_THUMBNAIL_URL);
+
+            stepsList.add(new Step(
+                    jsonObject.getInt(KEY_STEPS_ID),
+                    jsonObject.getString(KEY_STEPS_SHORT_DESCRIPTION),
+                    jsonObject.getString(KEY_STEPS_DESCRIPTION),
+                    video,
+                    thumbNail));
+        }
+        return stepsList;
     }
 }

@@ -3,6 +3,9 @@ package com.example.anu.bakingapp.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+
+import java.net.MalformedURLException;
 
 public class NetworkUtils {
 
@@ -18,4 +21,10 @@ public class NetworkUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+
+    public static Uri buildVideoUri(String videoUrl) throws MalformedURLException {
+        Uri uri = Uri.parse(videoUrl).buildUpon()
+                .build();
+        return uri;
+    }
 }

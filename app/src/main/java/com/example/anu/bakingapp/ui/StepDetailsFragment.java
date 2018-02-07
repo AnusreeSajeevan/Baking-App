@@ -1,16 +1,10 @@
 package com.example.anu.bakingapp.ui;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
@@ -21,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.model.Step;
+import com.example.anu.bakingapp.ui.recipe.Step;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;

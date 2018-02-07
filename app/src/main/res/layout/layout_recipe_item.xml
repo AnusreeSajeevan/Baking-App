@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:elevation="@dimen/cardview_default_elevation"
     android:layout_height="@dimen/recipe_item_height"
     android:id="@+id/layout_main"
+    app:cardCornerRadius="@dimen/margin_5"
     android:layout_margin="@dimen/recipe_item_margin">
 
     <android.support.constraint.ConstraintLayout
@@ -12,19 +14,17 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.AppCompatImageView
-            android:foreground="@color/colorOverlay"
             android:id="@+id/img_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@color/colorAccent"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/food" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:textStyle="bold"
             android:id="@+id/txt_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,12 +64,27 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            tools:text="steps"
+            tools:text="ingredients"
             app:layout_constraintBottom_toBottomOf="@+id/img_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/txt_ingredients_count"
             app:layout_constraintTop_toBottomOf="@+id/txt_ingredients_count"
             app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:drawablePadding="@dimen/margin_5"
+            android:drawableEnd="@drawable/ic_servings"
+            android:drawableRight="@drawable/ic_servings"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/txt_servings_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            tools:text="Servings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_num_steps" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

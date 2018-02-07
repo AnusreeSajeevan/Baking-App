@@ -22,4 +22,10 @@ public interface RecipeDao {
 
     @Query("SELECT COUNT(id) from recipe")
     int getRecipeCount();
+
+    @Query("SELECT * FROM recipe WHERE id = :id")
+    LiveData<Recipe> getRecipeWithId(int id);
+
+    @Query("SELECT ingredients FROM recipe WHERE id = :id")
+    String getRecipeIngredients(int id);
 }
