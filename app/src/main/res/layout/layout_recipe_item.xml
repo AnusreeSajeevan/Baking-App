@@ -77,7 +77,6 @@
             android:drawableEnd="@drawable/ic_servings"
             android:drawableRight="@drawable/ic_servings"
             android:textColor="@color/colorWhite"
-            android:id="@+id/txt_servings_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"

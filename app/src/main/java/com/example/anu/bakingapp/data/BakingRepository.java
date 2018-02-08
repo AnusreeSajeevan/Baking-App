@@ -3,7 +3,6 @@ package com.example.anu.bakingapp.data;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.anu.bakingapp.AppExecutors;
 import com.example.anu.bakingapp.data.database.IngredientsDao;
@@ -17,13 +16,13 @@ public class BakingRepository {
 
     private static final String TAG = BakingRepository.class.getSimpleName();
 
-    private RecipeDao recipeDao;
-    private IngredientsDao ingredientsDao;
-    private BakingNetworkDataSource networkDataSource;
-    private AppExecutors appExecutors;
+    private final RecipeDao recipeDao;
+    private final IngredientsDao ingredientsDao;
+    private final BakingNetworkDataSource networkDataSource;
+    private final AppExecutors appExecutors;
 
 
-    private MutableLiveData<Boolean> isAddedToWidget = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isAddedToWidget = new MutableLiveData<>();
 
     //for singleton instantiation
     private static final Object LOCK = new Object();
@@ -97,10 +96,7 @@ public class BakingRepository {
          */
         int recipeCount = recipeDao.getRecipeCount();
         boolean fetchNeeded;
-        if (recipeCount>0)
-            fetchNeeded = false;
-        else
-            fetchNeeded = true;
+        fetchNeeded = recipeCount <= 0;
 
         return fetchNeeded;
     }
@@ -132,7 +128,7 @@ public class BakingRepository {
 
     /**
      * method to insert ingredients
-     * @return
+     * @return InsertIngredientsAsyncTask
      */
     public void insertIngredients(List<Ingredient> ingredients){
         ingredientLists = ingredients;
@@ -145,10 +141,7 @@ public class BakingRepository {
         protected Boolean doInBackground(Void... voids) {
             Ingredient[] ingredients = ingredientLists.toArray(new Ingredient[ingredientLists.size()]);
             long[] ids = ingredientsDao.insertIngredients(ingredients);
-            if (ids.length > 0)
-                return true;
-            else
-                return false;
+            return ids.length > 0;
         }
 
         @Override

@@ -19,13 +19,13 @@ import org.json.JSONArray;
 public class BakingNetworkDataSource {
     private static final String TAG = BakingNetworkDataSource.class.getSimpleName();
     private Context mContext;
-    private AppExecutors mAppExecutors;
+    private final AppExecutors mAppExecutors;
 
     public MutableLiveData<Recipe[]> getmDownloadedRecipes() {
         return mDownloadedRecipes;
     }
 
-    private MutableLiveData<Recipe[]> mDownloadedRecipes;
+    private final MutableLiveData<Recipe[]> mDownloadedRecipes;
 
     //the url where the recipe listing json is located
     private static final String URL_RECIPE_LISTING = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";

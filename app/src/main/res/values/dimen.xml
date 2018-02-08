@@ -4,7 +4,6 @@
     <dimen name="recipe_item_margin">3dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_20">20dp</dimen>
-    <dimen name="step_video_height">200dp</dimen>
     <dimen name="margin_5">5dp</dimen>
 
     <dimen name="text_size_recipe_name">18sp</dimen>

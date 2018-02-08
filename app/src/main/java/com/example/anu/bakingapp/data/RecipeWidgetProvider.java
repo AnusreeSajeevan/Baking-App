@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.anu.bakingapp.R;
@@ -26,8 +25,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     private static final String TAG = RecipeWidgetProvider.class.getSimpleName();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    static void updateAppWidget(Context context, List<Ingredient> ingredientList, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    private static void updateAppWidget(Context context, List<Ingredient> ingredientList, AppWidgetManager appWidgetManager,
+                                        int appWidgetId) {
         RemoteViews views = getListIngredientsRemoteView(context);
 
         // Instruct the widget manager to update the widget
@@ -37,7 +36,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     private static RemoteViews getListIngredientsRemoteView(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
 
-        /**
+        /*
          * set {@link ListWidgetService} to act as the adapter for the listview
          */
         Intent intentAdapter = new Intent(context, ListWidgetService.class);

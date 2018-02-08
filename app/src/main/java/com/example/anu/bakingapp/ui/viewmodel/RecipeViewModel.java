@@ -19,8 +19,8 @@ public class RecipeViewModel extends ViewModel {
         recipeList = bakingRepository.getRecipeList();
     }
 
-    private LiveData<List<Recipe>> recipeList;
-    private BakingRepository bakingRepository;
+    private final LiveData<List<Recipe>> recipeList;
+    private final BakingRepository bakingRepository;
 
     public void deleteRecipes(){
         bakingRepository.deleteRecipes();

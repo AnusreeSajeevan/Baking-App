@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.example.anu.bakingapp.R;
@@ -16,10 +13,6 @@ import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_ME
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_QUANTITY;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_RECIPE_ID;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.CONTENT_URI;
-
-/**
- * Created by Design on 31-01-2018.
- */
 
 public class ListWidgetService extends RemoteViewsService {
     @Override
@@ -32,7 +25,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     private static final String TAG = ListRemoteViewsFactory.class.getSimpleName();
 
-    private Context context;
+    private final Context context;
 
     public ListRemoteViewsFactory(Context context) {
         this.context = context;
@@ -108,7 +101,8 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getViewTypeCount() {
-        return 1; //treat all the items in the gridview as same
+        //treat all the items in the gridview as same
+        return 1;
     }
 
     @Override

@@ -8,15 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
 import com.example.anu.bakingapp.ui.RecipeDetailsFragment;
@@ -40,10 +37,10 @@ public class RecipeDetailsActivity extends AppCompatActivity{
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
     public static final String EXTRA_STEPS = "com.example.anu.bakingapp.extra.STEPS";
     public static final String EXTRA_CLICKED_POS = "com.example.anu.bakingapp.extdra.CLICKED_POS";
-    public static final String EXTRA_IS_TABLET = "com.example.anu.bakingapp.extdra.IS_TABLET";
+    private static final String EXTRA_IS_TABLET = "com.example.anu.bakingapp.extdra.IS_TABLET";
     private static int recipeId;
     private static Recipe recipe;
-    static FragmentManager fragmentManager;
+    private static FragmentManager fragmentManager;
     private RecipeDetailsViewModelFactory factory;
     private RecipeDetailsViewModel viewModel;
     public static boolean isTwoPaneUi;
@@ -69,48 +66,37 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getApplicationContext());
         viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
         viewModel.setRecipeId(recipeId);
-        viewModel.getRecipe().observe(this, new Observer<Recipe>() {
-          @Override
-          public void onChanged(@Nullable Recipe recipes) {
-              recipe = recipes;
+        viewModel.getRecipe().observe(this, recipes -> {
+            recipe = recipes;
 
-              getSupportActionBar().setTitle(recipes.getName());
+            getSupportActionBar().setTitle(recipes.getName());
 
-              Fragment fragment = new RecipeDetailsFragment();
-              Bundle bundle = new Bundle();
-              bundle.putParcelable(RecipeActivity.KEY_RECIPE, recipe);
-              fragment.setArguments(bundle);
-              FragmentManager fragmentManager = getSupportFragmentManager();
-              fragmentManager.beginTransaction()
-                      .replace(R.id.master_list_fragment_container, fragment)
-                      .commit();
-          }
-      });
+            Fragment fragment = new RecipeDetailsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(RecipeActivity.KEY_RECIPE, recipe);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.master_list_fragment_container, fragment)
+                    .commit();
+        });
 
-        viewModel.getIsAdded().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean isAddedToWidget) {
+        viewModel.getIsAdded().observe(this, isAddedToWidget -> {
 
-                if (isAddToWidgetClicked){
+            if (isAddToWidgetClicked){
 
-                    if (isAddedToWidget) {
-                        Toast.makeText(RecipeDetailsActivity.this, "Recipe added to widget", Toast.LENGTH_SHORT).show();
-                        currentRecipeUtil.setLatestRecipeDetails(recipeId, recipe.getName());
+                if (isAddedToWidget) {
+                    Toast.makeText(RecipeDetailsActivity.this, "Recipe added to widget", Toast.LENGTH_SHORT).show();
+                    currentRecipeUtil.setLatestRecipeDetails(recipeId, recipe.getName());
 
-                    }
-                    else
-                        Toast.makeText(RecipeDetailsActivity.this, "Cannot add", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(RecipeDetailsActivity.this, "Cannot add", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        if (null != findViewById(R.id.layout_two_pane)){
-            isTwoPaneUi = true;
-        }
-        else {
-            isTwoPaneUi = false;
-        }
+        isTwoPaneUi = null != findViewById(R.id.layout_two_pane);
 
 
     }
@@ -121,7 +107,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         try {
          Fragment f = fragmentManager.findFragmentById(R.id.container_step_details);
             if(f == null) {
-                List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps().toString());
+                List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps());
                 bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
                 bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
                 bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);

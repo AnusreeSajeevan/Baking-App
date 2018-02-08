@@ -3,20 +3,18 @@ package com.example.anu.bakingapp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.android.volley.toolbox.StringRequest;
-
 /**
  * class which manages the details of recently added widget
  */
 public class CurrentRecipeUtil {
-    public static final String PREF_NAME = "pref_recipe";
-    public static final String KEY_RECIPE_ID = "recipe_id";
-    public static final String KEY_RECIPE_NAME = "recipe_name";
+    private static final String PREF_NAME = "pref_recipe";
+    private static final String KEY_RECIPE_ID = "recipe_id";
+    private static final String KEY_RECIPE_NAME = "recipe_name";
 
     private static SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-    private int PREF_MODE_PRIVATE = 0;
-    private Context context;
+    private final SharedPreferences.Editor editor;
+    private final int PREF_MODE_PRIVATE = 0;
+    private final Context context;
 
     public CurrentRecipeUtil(Context context) {
         this.context = context;

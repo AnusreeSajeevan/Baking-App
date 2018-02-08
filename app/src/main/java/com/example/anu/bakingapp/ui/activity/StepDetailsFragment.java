@@ -20,7 +20,7 @@ import butterknife.Unbinder;
  * fragment that displays recipe step details
  */
 public class StepDetailsFragment extends Fragment {
-    Unbinder unbinder;
+    private Unbinder unbinder;
     @BindView(R.id.exo_player_view)
     SimpleExoPlayerView exoPlayerView;
     @BindView(R.id.txt_description)
@@ -32,14 +32,6 @@ public class StepDetailsFragment extends Fragment {
     public StepDetailsFragment() {
     }
 
-    /**
-     * inflates {@literal fragment_step_details} layout
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

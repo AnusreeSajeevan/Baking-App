@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,11 @@ public class StepDetailsMainFragment extends Fragment {
     private static final String TAG = StepDetailsMainFragment.class.getSimpleName();
 
     private static int currentStepPos;
-    public List<Step> stepList = new ArrayList<>();
-    FragmentPagerAdapter fragmentPagerAdapter;
+    private List<Step> stepList = new ArrayList<>();
+    private FragmentPagerAdapter fragmentPagerAdapter;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    Unbinder unbinder;
+    private Unbinder unbinder;
     private boolean isTabletView;
 
     @Override

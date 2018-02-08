@@ -11,14 +11,10 @@ import com.example.anu.bakingapp.data.Ingredient;
 
 import java.util.List;
 
-/**
- * Created by Design on 23-01-2018.
- */
-
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> {
 
     private List<Ingredient> mIngredientList;
-    private Context mContext;
+    private final Context mContext;
 
     public IngredientsAdapter(Context mContext) {
         this.mContext = mContext;
@@ -47,7 +43,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
 
     /**
      * method to set ingredients list
-     * @param ingredientList
+     * @param ingredientList list off ingrdients to be set
      */
     public void setIngredientList(List<Ingredient> ingredientList){
         this.mIngredientList = ingredientList;

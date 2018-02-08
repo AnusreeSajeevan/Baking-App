@@ -2,7 +2,6 @@ package com.example.anu.bakingapp.ui.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.Ingredient;
@@ -14,7 +13,7 @@ import java.util.List;
 public class RecipeDetailsViewModel extends ViewModel {
     private LiveData<Recipe> recipe;
     private int recipeId;
-    private BakingRepository bakingRepository;
+    private final BakingRepository bakingRepository;
     private LiveData<Boolean> isAdded;
 
     public RecipeDetailsViewModel(BakingRepository bakingRepository) {

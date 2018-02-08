@@ -3,7 +3,6 @@ package com.example.anu.bakingapp.utils;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
@@ -51,8 +50,7 @@ public class BakingJsonUtils {
                     jsonObject.getJSONArray(KEY_INGREDIENTS_ARRAY).toString(),
                     jsonObject.getJSONArray(KEY_STEPS_ARRAY).toString()));
         }
-        Recipe[] recipes = recipeArrayList.toArray(new Recipe[recipeArrayList.size()]);
-        return recipes;
+        return recipeArrayList.toArray(new Recipe[recipeArrayList.size()]);
     }
 
     /**
@@ -67,7 +65,7 @@ public class BakingJsonUtils {
 
     /**
      * method to get number of steps
-     * @param steps
+     * @param steps list of step objects
      * @return number of steps
      */
     public static int getStepsCount(String steps) throws JSONException {
@@ -77,7 +75,7 @@ public class BakingJsonUtils {
 
     /**
      * method to parse recipe details to get ingredients and steps
-     * @param recipeId
+     * @param recipeId idod the recipe
      * @param ingredients
      *
 //    public static /*List<Ingredient>*/
@@ -95,7 +93,7 @@ public class BakingJsonUtils {
     }
     /**
      * method to parse steps details to get steps
-     * @param steps
+     * @param steps step object
      */
     public static List<Step> parseSteps(String steps) throws JSONException {
         JSONArray jsonArraySteps = new JSONArray(steps);

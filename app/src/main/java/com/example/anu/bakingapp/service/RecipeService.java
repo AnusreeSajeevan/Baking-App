@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Ingredient;
@@ -20,13 +19,11 @@ import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import static com.example.anu.bakingapp.data.IngredientContentProvider.BASE_CONTENT_URI;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_INGREDIENT;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_MEASURE;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_QUANTITY;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.CONTENT_URI;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.INVALID_RECIPE_ID;
-import static com.example.anu.bakingapp.data.IngredientContentProvider.PATH_INGREDIENT;
 
 /**
  * An {@link IntentService} sub class is used to
@@ -37,7 +34,7 @@ public class RecipeService extends IntentService {
     /**
      * To keep things organized, it’s best to define the actions that the IntentService can handle
      */
-    public static final String ACTION_UPDATE_RECIPE_WIDGETS = "com.example.anu.bakingapp.action.update_recipe_widgets";
+    private static final String ACTION_UPDATE_RECIPE_WIDGETS = "com.example.anu.bakingapp.action.update_recipe_widgets";
 
     public RecipeService() {
         super("RecipeService");
@@ -86,6 +83,9 @@ public class RecipeService extends IntentService {
                 ingredientList.add(new Ingredient(recipe_id, quantity, measure, ingredient));
             }
         }
+        if (cursor != null)
+            cursor.close();
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
         //Trigger data update to handle the GridView widgets and force a data refresh

@@ -19,9 +19,9 @@ import java.util.List;
 
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
-    private Context mContext;
+    private final Context mContext;
     private List<Recipe> mRecipeList;
-    private RecipeOnClickListener mRecipeOnClickListener;
+    private final RecipeOnClickListener mRecipeOnClickListener;
 
     private static final String TAG = RecipeAdapter.class.getSimpleName();
 
@@ -54,11 +54,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
                 .into(holder.imgBack);
 
         try {
-            int ingredientsCount = 0;
+            int ingredientsCount;
             ingredientsCount = BakingJsonUtils.getIngredientsCount(recipe.getIngredients());
             holder.txtIngredientsCount.setText(String.valueOf(ingredientsCount));
 
-            int stepsCount = 0;
+            int stepsCount;
             stepsCount = BakingJsonUtils.getStepsCount(recipe.getSteps());
             holder.txtNumSteps.setText(mContext.getResources().getQuantityString(R.plurals.step_count, stepsCount, stepsCount));
 

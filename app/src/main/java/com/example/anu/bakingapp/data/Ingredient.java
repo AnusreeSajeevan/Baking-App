@@ -2,9 +2,6 @@ package com.example.anu.bakingapp.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 @Entity(primaryKeys = {"recipe_id","ingredient"})
@@ -25,7 +22,7 @@ public class Ingredient {
     @NonNull
     private String ingredient;
 
-    public Ingredient(int recipeId, int quantity, String measure, String ingredient) {
+    public Ingredient(int recipeId, int quantity, @NonNull String measure, @NonNull String ingredient) {
         this.recipeId = recipeId;
         this.quantity = quantity;
         this.measure = measure;
@@ -44,11 +41,11 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
-    public void setMeasure(String measure) {
+    public void setMeasure(@NonNull String measure) {
         this.measure = measure;
     }
 
-    public void setIngredient(String ingredient) {
+    public void setIngredient(@NonNull String ingredient) {
         this.ingredient = ingredient;
     }
 
@@ -56,10 +53,12 @@ public class Ingredient {
         return quantity;
     }
 
+    @NonNull
     public String getMeasure() {
         return measure;
     }
 
+    @NonNull
     public String getIngredient() {
         return ingredient;
     }

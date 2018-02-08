@@ -3,7 +3,6 @@ package com.example.anu.bakingapp.ui.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
@@ -12,7 +11,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public class StepsListLiveData extends LiveData<List<Step>> {
+class StepsListLiveData extends LiveData<List<Step>> {
     private final Context context;
     public StepsListLiveData(Context context, String steps) {
         this.context = context;
@@ -24,8 +23,7 @@ public class StepsListLiveData extends LiveData<List<Step>> {
             @Override
             protected List<Step> doInBackground(String... strings) {
                 try {
-                    List<Step> list = BakingJsonUtils.parseSteps(strings[0]);
-                    return list;
+                    return BakingJsonUtils.parseSteps(strings[0]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,14 +49,14 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
     @BindView(R.id.recycler_view_steps)
     RecyclerView recyclerViewSteps;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
     private static final String TAG = RecipeDetailsFragment.class.getSimpleName();
     private IngredientsAdapter mIngredientsAdapter;
     private StepsAdapter msStepsAdapter;
     private int recipeId;
     private static  List<Ingredient> ingredientList = new ArrayList<>();
     private List<Step> stepList = new ArrayList<>();
-    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+    private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
     private Recipe recipe;
 
     @Override
@@ -153,8 +152,4 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 }

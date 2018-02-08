@@ -1,8 +1,6 @@
 package com.example.anu.bakingapp.data;
 
-import android.arch.persistence.room.Ignore;
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -10,23 +8,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.database.BakingDatabase;
 import com.example.anu.bakingapp.data.database.IngredientsDao;
 
-/**
- * Created by Design on 08-02-2018.
- */
-
 public class IngredientContentProvider extends ContentProvider {
 
 
-    public static final int CODE_INGREDIENT_WITH_RECIPE_ID = 100;
+    private static final int CODE_INGREDIENT_WITH_RECIPE_ID = 100;
 
-    public static UriMatcher sUriMatcher = buildUriMatcher();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
 
-    public static final String PATH_INGREDIENT = "ingredient";
+    private static final String PATH_INGREDIENT = "ingredient";
 
 
 
@@ -46,10 +39,10 @@ public class IngredientContentProvider extends ContentProvider {
     public static final int INVALID_RECIPE_ID = -1;
 
     // The authority, which is how your code knows which Content Provider to access
-    public static final String CONTENT_AUTHORITY = "com.example.anu.bakingapp";
+    private static final String CONTENT_AUTHORITY = "com.example.anu.bakingapp";
 
     // The base content URI = "content://" + <authority>
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     /**
      * the content uri used to access ingredient table from th content provider
      */
@@ -73,6 +66,7 @@ public class IngredientContentProvider extends ContentProvider {
             final Cursor cursor;
             String[] recipeId = new String[]{uri.getLastPathSegment()};
             cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
+            assert context != null;
             cursor.setNotificationUri(context.getContentResolver(), uri);
             return cursor;
         } else {

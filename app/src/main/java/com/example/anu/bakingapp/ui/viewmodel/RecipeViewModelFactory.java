@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.example.anu.bakingapp.data.BakingRepository;
 
 public class RecipeViewModelFactory extends ViewModelProvider.NewInstanceFactory {
-    private BakingRepository repository;
+    private final BakingRepository repository;
 
     public RecipeViewModelFactory(BakingRepository repository) {
         this.repository = repository;
