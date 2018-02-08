@@ -23,6 +23,4 @@ public interface IngredientsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertIngredients(Ingredient... lists);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSingleIngredient(Ingredient lists);
 }

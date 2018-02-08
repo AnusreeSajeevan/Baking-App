@@ -82,11 +82,9 @@ public class BakingJsonUtils {
      *
 //    public static /*List<Ingredient>*/
     public static List<Ingredient> parseIngredients(int recipeId, String ingredients) throws JSONException {
-        Log.d("list",ingredients);
         JSONArray jsonArrayIngredients = new JSONArray(ingredients);
         List<Ingredient> ingredientList = new ArrayList<>();
         for (int i = 0;i<jsonArrayIngredients.length();i++){
-            Log.d("list","i : " + i);
             JSONObject jsonObject = jsonArrayIngredients.getJSONObject(i);
             ingredientList.add(new Ingredient(recipeId,
                     jsonObject.getInt(KEY_INGREDIENTS_QUANTITY),
@@ -103,7 +101,6 @@ public class BakingJsonUtils {
         JSONArray jsonArraySteps = new JSONArray(steps);
         List<Step> stepsList = new ArrayList<>();
         for (int i = 0;i<jsonArraySteps.length();i++){
-            Log.d(TAG, "i : " + i);
             JSONObject jsonObject = jsonArraySteps.getJSONObject(i);
             String video = null;
             String thumbNail = null;

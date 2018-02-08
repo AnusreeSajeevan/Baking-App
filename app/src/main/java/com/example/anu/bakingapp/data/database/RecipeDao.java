@@ -27,7 +27,4 @@ public interface RecipeDao {
 
     @Query("SELECT * FROM recipe WHERE id = :id")
     LiveData<Recipe> getRecipeWithId(int id);
-
-    @Query("SELECT ingredients FROM recipe WHERE id = :id")
-    String getRecipeIngredients(int id);
 }

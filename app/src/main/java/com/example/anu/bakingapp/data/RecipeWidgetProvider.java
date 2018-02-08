@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -34,7 +35,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     }
 
     private static RemoteViews getListIngredientsRemoteView(Context context) {
-        Log.d(TAG, "getListIngredientsRemoteView");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
 
         /**
@@ -52,16 +52,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         return views;
     }
- /*   *//**
-     * method to get remote view for all the recipes
-     * @param context called context
-     * @return remote view
-     *//*
-    private static RemoteViews getAllRecipesRemoteView(Context context) {
-        
-    }
-*/
-
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -86,6 +76,14 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, ingredientList, appWidgetManager, appWidgetId);
         }
+    }
+
+
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        RecipeService.startActionUpdateRecipeWidgets(context);
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 }
 

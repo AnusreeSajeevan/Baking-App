@@ -52,10 +52,8 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     public void onDataSetChanged() {
         CurrentRecipeUtil currentRecipeUtil = new CurrentRecipeUtil(context);
         String currentRecipeId = String.valueOf(currentRecipeUtil.getKeyRecipeId());
-        Log.d(TAG, "currentRecipeId" + currentRecipeId);
         // Get all ingredients corresponding to recipeId
         Uri INGREDIENT_URI = CONTENT_URI.buildUpon().appendPath(currentRecipeId).build();
-        Log.d(TAG, "INGREDIENT_URI" + INGREDIENT_URI);
         if (cursor != null) cursor.close();
         cursor = context.getContentResolver().query(
                 INGREDIENT_URI,
@@ -73,8 +71,6 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getCount() {
-        Log.d("CheckWwidgetupdate","cursor : : " + cursor);
-        Log.d("CheckWwidgetupdate","count : : " + cursor.getCount());
         if (null == cursor)
             return 0;
         else
@@ -90,8 +86,6 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
      */
     @Override
     public RemoteViews getViewAt(int position) {
-        Log.d("CheckWwidgetupdate","getViewAt");
-        Log.d("CheckWwidgetupdate","cursor : " + cursor);
         if (cursor == null || cursor.getCount() == 0) return null;
         cursor.moveToPosition(position);
         int recipeIdIndex = cursor.getColumnIndex(COLUMN_RECIPE_ID);

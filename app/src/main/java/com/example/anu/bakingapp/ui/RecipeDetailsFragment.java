@@ -146,7 +146,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         if (RecipeDetailsActivity.isTwoPaneUi){
             RecipeDetailsActivity.setStepFragment(position);
         }else {
-            Log.d("CheckStepClick","onStepClick fragment");
             Intent i = new Intent(getActivity(), StepDetailsActivity.class);
             i.putParcelableArrayListExtra(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
             i.putExtra(EXTRA_CLICKED_POS, position);
@@ -156,7 +155,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.d("CheckPositions","ingreients : " + linearLayoutManager.findFirstVisibleItemPosition());
         super.onSaveInstanceState(outState);
     }
 }

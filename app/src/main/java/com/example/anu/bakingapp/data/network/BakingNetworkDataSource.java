@@ -66,7 +66,10 @@ public class BakingNetworkDataSource {
                         response -> {
                             try {
                                 JSONArray jsonArray = new JSONArray(response);
-                                Recipe[] recipes = BakingJsonUtils.getRecipeListFromJson(jsonArray);
+                                Recipe[] recipes = new Recipe[0];
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                                    recipes = BakingJsonUtils.getRecipeListFromJson(jsonArray);
+                                }
                                 mDownloadedRecipes.postValue(recipes);
                             } catch (Exception e) {
                                 e.printStackTrace();

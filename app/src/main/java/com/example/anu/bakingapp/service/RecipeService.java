@@ -60,9 +60,7 @@ public class RecipeService extends IntentService {
     private void handleActionUpdateRecipeWidgets() {
         CurrentRecipeUtil currentRecipeUtil = new CurrentRecipeUtil(this);
         int recipe_id = currentRecipeUtil.getKeyRecipeId();
-        Log.d("CheckWwidgetupdate","handleActionUpdateRecipeWidgets");
         Uri RECIPE_URI = CONTENT_URI.buildUpon().appendPath(String.valueOf(recipe_id)).build();
-        Log.d("CheckWwidgetupdate","RECIPE_URI : " + RECIPE_URI);
         Cursor cursor = getContentResolver().query(
                 RECIPE_URI,
                 null,

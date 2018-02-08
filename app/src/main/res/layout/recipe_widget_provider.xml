@@ -3,11 +3,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/widget_margin">
     <ImageView
+        android:contentDescription="default widget image"
         android:id="@+id/widget_recipe_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/ic_restaurant_icon"/>
+        app:srcCompat="@drawable/ic_restaurant_icon"/>
 </LinearLayout>

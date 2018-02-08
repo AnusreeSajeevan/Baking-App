@@ -64,10 +64,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getSupportFragmentManager();
 
-        Log.d(TAG, "onCreate : ");
-//        recipeId = getIntent().getIntExtra(RecipeActivity.KEY_RECIPE_ID, -1);
         recipeId = getIntent().getIntExtra(RecipeActivity.KEY_RECIPE_ID, -1);
-        Log.d("checkChanged","recipeId : " + recipeId);
 
         factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getApplicationContext());
         viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
@@ -83,7 +80,6 @@ public class RecipeDetailsActivity extends AppCompatActivity{
               Bundle bundle = new Bundle();
               bundle.putParcelable(RecipeActivity.KEY_RECIPE, recipe);
               fragment.setArguments(bundle);
-              Log.d("checkinactivity","recipe : " + recipe);
               FragmentManager fragmentManager = getSupportFragmentManager();
               fragmentManager.beginTransaction()
                       .replace(R.id.master_list_fragment_container, fragment)
@@ -120,7 +116,6 @@ public class RecipeDetailsActivity extends AppCompatActivity{
     }
 
     public static void setStepFragment(int position) {
-        Log.d("replaceFragment","position : " + position);
         Fragment fragment = new StepDetailsMainFragment();
         Bundle bundle = new Bundle();
         try {
@@ -134,7 +129,6 @@ public class RecipeDetailsActivity extends AppCompatActivity{
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_step_details, fragment)
                         .commit();
-                Log.d("replaceFragment","if");
             }
             else {
 

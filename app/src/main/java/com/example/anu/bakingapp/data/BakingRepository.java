@@ -76,7 +76,7 @@ public class BakingRepository {
         mInitialized = true;
 
         /*
-         use {@link isfetchNeeded} to determine whether to fetch recipe from the network
+         use {@link isFetchNeeded()} to determine whether to fetch recipe from the network
          */
         appExecutors.diskIO().execute(()->{
             if (isFetchNeeded())
@@ -116,8 +116,6 @@ public class BakingRepository {
 
     public LiveData<Recipe> getRecipeWithId(int recipeId){
         initializeData();
-        Log.d("CheckRepoo","1");
-        Log.d("CheckRepoo","recipeDao.getRecipeWithId(recipeId) : "+recipeDao.getRecipeWithId(recipeId));
         return recipeDao.getRecipeWithId(recipeId);
     }
 
@@ -155,43 +153,9 @@ public class BakingRepository {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            Log.d(TAG, "onPostExecute");
-            Log.d(TAG, "aBoolean : " + aBoolean);
             isAddedToWidget.postValue(aBoolean);
         }
     }
-
-    /*private class InsertIngredientsAsyncTask extends AsyncTask<List[] , Void, Boolean>{
-
-        private IngredientsDao ingredientsDao;
-
-        public InsertIngredientsAsyncTask(IngredientsDao ingredientsDao){
-            this.ingredientsDao = ingredientsDao;
-        }
-
-        @Override
-        protected Boolean doInBackground(List<Ingredient> lists) {
-            boolean isAdded;
-
-            for (Ingredient ingredient : lists){
-
-            }
-            for (int i = 0;i<lists.length;i++){
-                ingredients[i].setRecipeId(lists[i].get(i).getRecipeId());
-                ingredients[i].setQuantity(lists[i].get(i).getQuantity());
-                ingredients[i].setMeasure(lists[i].get(i).getMeasure());
-                ingredients[i].setIngredient(lists[i].get(i).getIngredient());
-            }
-            long[] ids = ingredientsDao.insertIngredients(ingredients);
-            Log.d(TAG, "inseted ids : " + ids.length);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-        }
-    }*/
 
     public MutableLiveData<Boolean> getIsAddedToWidget() {
         initializeData();

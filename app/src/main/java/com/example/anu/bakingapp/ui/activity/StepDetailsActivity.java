@@ -33,8 +33,6 @@ public class StepDetailsActivity extends AppCompatActivity {
 
         steps = getIntent().getParcelableArrayListExtra(EXTRA_STEPS);
         clickedPos = getIntent().getIntExtra(RecipeDetailsActivity.EXTRA_CLICKED_POS, -1);
-        Log.d(TAG, "steps : " + steps);
-        Log.d(TAG, "clickedPos : " + clickedPos);
 
         Fragment fragment = new StepDetailsMainFragment();
         Bundle bundle = new Bundle();

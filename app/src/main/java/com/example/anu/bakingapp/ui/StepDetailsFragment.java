@@ -70,7 +70,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
      * @return
      */
     public static StepDetailsFragment newInstance(int page, Step step) {
-        Log.d(TAG, "page : " + page);
         StepDetailsFragment stepDetailsMainFragment = new StepDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_PAGE, page);
@@ -88,7 +87,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "getarguments : " + getArguments());
         if (null != getArguments()) {
             page = getArguments().getInt(KEY_PAGE);
             step = getArguments().getParcelable(KEY_STEP);
@@ -119,9 +117,7 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
      * @param mediaUri uri of the music sample to play
      */
     private void initializePlayer(Uri mediaUri) {
-        Log.d("CheckExoPlayerr","initializePlayer");
         if (null == exoPlayer && mediaUri != null){
-            Log.d("CheckExoPlayerr","if");
 
             //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
             TrackSelector trackSelector = new DefaultTrackSelector();
@@ -147,7 +143,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
      */
     private void populateDetails(Step step) {
         txtDescription.setText(step.getDescription());
-        Log.d(TAG, "video : " + step.getVideoURL());
         if (step.getVideoURL() == null || step.getVideoURL().equals(""))
             exoPlayerView.setVisibility(View.GONE);
         else {
@@ -321,7 +316,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
 
     @Override
     public void onDestroy() {
-        Log.d("CheckFlowExo","onResume");
         super.onDestroy();
         releasePlayer();
     }
@@ -337,7 +331,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
      * stop and release the player when the Activity is destroyed.
      */
     private void releasePlayer() {
-        Log.d("checkExoFlow","releasePlayer");
         if (exoPlayer!=null) {
             exoPlayer.stop();
             exoPlayer.release();
@@ -349,7 +342,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
 
     @Override
     public void onResume() {
-        Log.d("CheckFlowExo","step.getVideoURL() : " + step.getVideoURL());
         super.onResume();
         initializeMediaSession();
         try {
@@ -362,7 +354,6 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("saveInstance","currentPlayerPos : " + currentPlayerPos);
         outState.putLong("position", currentPlayerPos);
     }
 

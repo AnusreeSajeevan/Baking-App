@@ -66,28 +66,14 @@ public class IngredientContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1,
                         @Nullable String s1) {
-        Log.d("CheckWwidgetupdate","query");
         int uriMatch = sUriMatcher.match(uri);
         if (uriMatch == CODE_INGREDIENT_WITH_RECIPE_ID) {
-            Log.d("CheckWwidgetupdate","if");
             final Context context = getContext();
-            Log.d("CheckWwidgetupdate","1");
-//            if (context == null) {
-//                Log.d("CheckWwidgetupdate","if 2");
-//                return null;
-//            }
             IngredientsDao ingredientsDao = BakingDatabase.getNewInstance(context).getIngredientsDao();
-            Log.d("CheckWwidgetupdate","2");
             final Cursor cursor;
             String[] recipeId = new String[]{uri.getLastPathSegment()};
-            Log.d("CheckWwidgetupdate","uri.getLastPathSegment() : "+uri.getLastPathSegment());
-            Log.d("CheckWwidgetupdate","3");
-            Log.d("CheckWwidgetupdate","recipeId : " + recipeId);
-            Log.d("CheckWwidgetupdate","recipe id : " + Integer.parseInt(recipeId[0]));
             cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
-            Log.d("CheckWwidgetupdate","count : " + cursor.getCount());
             cursor.setNotificationUri(context.getContentResolver(), uri);
-            Log.d("CheckWwidgetupdate","4");
             return cursor;
         } else {
             throw new IllegalArgumentException("Unknown URI: " + uri);

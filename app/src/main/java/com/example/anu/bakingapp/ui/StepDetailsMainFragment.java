@@ -53,7 +53,6 @@ public class StepDetailsMainFragment extends Fragment {
 
         fragmentPagerAdapter = new StepsPagerAdapter(getActivity().getSupportFragmentManager(), stepList);
         viewPager.setAdapter(fragmentPagerAdapter);
-        Log.d(TAG, "currentStepPos : " + currentStepPos);
         viewPager.setCurrentItem(currentStepPos);
 
         if (!isTabletView)

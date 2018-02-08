@@ -26,7 +26,6 @@ public class RecipeDetailsViewModel extends ViewModel {
     }
 
     public LiveData<Recipe> getRecipe() {
-        Log.d("CheckRepoo", "1 1  1 : " +bakingRepository.getRecipeWithId(recipeId));
         return bakingRepository.getRecipeWithId(recipeId);
     }
 

@@ -15,4 +15,6 @@
     <string name="sample_recipe_name">Nutella Pie</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_to_widget">Add To Widgets</string>
+    <string name="no_recipes_added">No recipes added</string>
+    <string name="space">&#032;</string>
 </resources>

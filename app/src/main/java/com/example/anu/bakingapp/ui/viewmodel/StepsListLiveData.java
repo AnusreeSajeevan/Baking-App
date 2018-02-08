@@ -19,16 +19,12 @@ public class StepsListLiveData extends LiveData<List<Step>> {
         loadSteps(steps);
     }
     private void loadSteps(String steps) {
-        Log.d("checkSteps", steps);
         new AsyncTask<String, Void, List<Step>>(){
 
             @Override
             protected List<Step> doInBackground(String... strings) {
                 try {
-                    Log.d("checkSteps","1");
-                    Log.d("checkSteps",strings[0]);
                     List<Step> list = BakingJsonUtils.parseSteps(strings[0]);
-                    Log.d("checkSteps", String.valueOf(list.size()));
                     return list;
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -38,7 +34,6 @@ public class StepsListLiveData extends LiveData<List<Step>> {
 
             @Override
             protected void onPostExecute(List<Step> stepList) {
-                Log.d("checkSteps","onPostExecute");
                 setValue(stepList);
             }
         }.execute(steps);
