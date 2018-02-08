@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.ui.recipe.Step;
+import com.example.anu.bakingapp.data.Step;
 
 import java.util.List;
 

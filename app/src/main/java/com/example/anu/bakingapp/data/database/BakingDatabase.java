@@ -5,7 +5,10 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-@Database(entities = {Recipe.class}, version = 1)
+import com.example.anu.bakingapp.data.Ingredient;
+import com.example.anu.bakingapp.data.Recipe;
+
+@Database(entities = {Recipe.class, Ingredient.class}, version = 2)
 public abstract class BakingDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();

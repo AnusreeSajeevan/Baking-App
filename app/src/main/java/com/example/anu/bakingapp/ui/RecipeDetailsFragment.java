@@ -1,7 +1,5 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -16,17 +14,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.database.Ingredient;
-import com.example.anu.bakingapp.data.database.Recipe;
-import com.example.anu.bakingapp.ui.StepDetailsActivity;
+import com.example.anu.bakingapp.data.Ingredient;
+import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.ui.activity.RecipeActivity;
+import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
+import com.example.anu.bakingapp.ui.activity.StepDetailsActivity;
 import com.example.anu.bakingapp.ui.adapter.IngredientsAdapter;
 import com.example.anu.bakingapp.ui.adapter.StepsAdapter;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
-import com.example.anu.bakingapp.utils.InjectorUtils;
 
 import org.json.JSONException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity.EXTRA_CLICKED_POS;
-import static com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity.EXTRA_STEPS;
+import static com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity.EXTRA_CLICKED_POS;
+import static com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity.EXTRA_STEPS;
 
 /**
  * master list fragment

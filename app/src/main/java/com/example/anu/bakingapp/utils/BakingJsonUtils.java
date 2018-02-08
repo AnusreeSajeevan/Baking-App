@@ -5,9 +5,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.example.anu.bakingapp.data.database.Ingredient;
-import com.example.anu.bakingapp.data.database.Recipe;
-import com.example.anu.bakingapp.ui.recipe.Step;
+import com.example.anu.bakingapp.data.Ingredient;
+import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.data.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;

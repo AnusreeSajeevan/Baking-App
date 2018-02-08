@@ -1,9 +1,6 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.activity;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -14,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
-import com.example.anu.bakingapp.ui.adapter.StepsAdapter;
+import com.example.anu.bakingapp.ui.RecipeDetailsFragment;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModel;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModelFactory;
+import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
 import com.example.anu.bakingapp.utils.InjectorUtils;
 

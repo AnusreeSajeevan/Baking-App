@@ -4,5 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container_main"
-    tools:context="com.example.anu.bakingapp.ui.activity.StepDetailsActivity"/>
+    tools:context="com.example.anu.bakingapp.ui.activity.RecipeIngredientsWidgetActivity">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

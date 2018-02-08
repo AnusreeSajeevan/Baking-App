@@ -1,4 +1,4 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

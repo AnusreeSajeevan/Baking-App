@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.anu.bakingapp.ui.StepDetailsFragment;
-import com.example.anu.bakingapp.ui.recipe.Step;
+import com.example.anu.bakingapp.data.Step;
 
 import java.util.ArrayList;
 import java.util.List;

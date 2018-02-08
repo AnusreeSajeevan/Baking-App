@@ -1,10 +1,10 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.anu.bakingapp.data.BakingRepository;
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 
 import java.util.List;
 

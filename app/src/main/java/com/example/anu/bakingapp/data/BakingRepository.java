@@ -4,8 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.util.Log;
 
 import com.example.anu.bakingapp.AppExecutors;
-import com.example.anu.bakingapp.data.database.Ingredient;
-import com.example.anu.bakingapp.data.database.Recipe;
 import com.example.anu.bakingapp.data.database.RecipeDao;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
 

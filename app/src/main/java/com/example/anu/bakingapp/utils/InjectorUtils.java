@@ -16,16 +16,14 @@
 
 package com.example.anu.bakingapp.utils;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.example.anu.bakingapp.AppExecutors;
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.database.BakingDatabase;
-import com.example.anu.bakingapp.data.database.Recipe;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
-import com.example.anu.bakingapp.ui.recipe.RecipeDetailsViewModelFactory;
-import com.example.anu.bakingapp.ui.recipe.RecipeViewModelFactory;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModelFactory;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModelFactory;
 
 /**
  * Provides static methods to inject the various classes

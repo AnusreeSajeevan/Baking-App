@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.ui.adapter.StepsPagerAdapter;
-import com.example.anu.bakingapp.ui.recipe.RecipeDetailsActivity;
-import com.example.anu.bakingapp.ui.recipe.Step;
+import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
+import com.example.anu.bakingapp.data.Step;
 
 import java.util.ArrayList;
 import java.util.List;

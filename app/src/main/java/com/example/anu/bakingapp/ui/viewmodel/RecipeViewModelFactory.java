@@ -1,4 +1,4 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

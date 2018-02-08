@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.ui.recipe.Step;
+import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;

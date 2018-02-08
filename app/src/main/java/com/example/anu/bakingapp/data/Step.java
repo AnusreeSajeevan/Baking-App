@@ -1,4 +1,4 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.data;
 
 
 import android.os.Parcel;

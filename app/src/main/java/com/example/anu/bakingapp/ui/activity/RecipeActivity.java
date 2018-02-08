@@ -1,6 +1,5 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.activity;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,22 +7,21 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.ui.adapter.RecipeAdapter;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModelFactory;
 import com.example.anu.bakingapp.utils.InjectorUtils;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 

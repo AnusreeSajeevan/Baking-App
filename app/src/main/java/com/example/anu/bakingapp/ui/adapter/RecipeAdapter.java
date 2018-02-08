@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
 import com.example.anu.bakingapp.utils.RecipeImageUtils;
 import com.squareup.picasso.Picasso;

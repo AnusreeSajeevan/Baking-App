@@ -1,4 +1,4 @@
-package com.example.anu.bakingapp.data.database;
+package com.example.anu.bakingapp.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

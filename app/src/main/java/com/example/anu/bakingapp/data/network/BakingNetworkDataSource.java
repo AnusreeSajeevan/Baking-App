@@ -7,7 +7,7 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.example.anu.bakingapp.AppExecutors;
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
 import com.example.anu.bakingapp.volley.AppController;
 

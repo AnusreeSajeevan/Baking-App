@@ -1,7 +1,7 @@
 package com.example.anu.bakingapp.data.network;
 
 
-import com.example.anu.bakingapp.data.database.Recipe;
+import com.example.anu.bakingapp.data.Recipe;
 import com.google.gson.annotations.SerializedName;
 
 public class RecipeResponse {

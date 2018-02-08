@@ -5,14 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
-import com.example.anu.bakingapp.data.database.Ingredient;
+import com.example.anu.bakingapp.data.Ingredient;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by Design on 23-01-2018.

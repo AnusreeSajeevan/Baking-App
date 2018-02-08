@@ -1,25 +1,11 @@
-package com.example.anu.bakingapp.ui.recipe;
+package com.example.anu.bakingapp.ui.viewmodel;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.anu.bakingapp.data.BakingRepository;
-import com.example.anu.bakingapp.data.database.Ingredient;
-import com.example.anu.bakingapp.data.database.Recipe;
-import com.example.anu.bakingapp.utils.BakingJsonUtils;
-
-import org.json.JSONException;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.anu.bakingapp.data.Recipe;
 
 
 public class RecipeDetailsViewModel extends ViewModel {
