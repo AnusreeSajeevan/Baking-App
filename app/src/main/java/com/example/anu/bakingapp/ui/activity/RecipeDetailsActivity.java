@@ -9,10 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
+import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
 import com.example.anu.bakingapp.ui.RecipeDetailsFragment;
@@ -39,6 +43,9 @@ public class RecipeDetailsActivity extends AppCompatActivity{
     private static int recipeId;
     private static Recipe recipe;
     static FragmentManager fragmentManager;
+    private RecipeDetailsViewModelFactory factory;
+    private RecipeDetailsViewModel viewModel;
+
     @BindView(R.id.master_list_fragment_container)
     FrameLayout masterListFragment;
     public static boolean isTwoPaneUi;
@@ -56,8 +63,9 @@ public class RecipeDetailsActivity extends AppCompatActivity{
 //        recipeId = getIntent().getIntExtra(RecipeActivity.KEY_RECIPE_ID, -1);
         recipeId = getIntent().getIntExtra(RecipeActivity.KEY_RECIPE_ID, -1);
         Log.d("checkChanged","recipeId : " + recipeId);
-        RecipeDetailsViewModelFactory factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getApplicationContext());
-        RecipeDetailsViewModel viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
+
+        factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getApplicationContext());
+        viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
         viewModel.setRecipeId(recipeId);
         viewModel.getRecipe().observe(this, new Observer<Recipe>() {
           @Override
@@ -78,6 +86,15 @@ public class RecipeDetailsActivity extends AppCompatActivity{
           }
       });
 
+        viewModel.getIsAdded().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean isAddedToWidget) {
+                if (isAddedToWidget)
+                    Toast.makeText(RecipeDetailsActivity.this, "Recipe added to widget", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(RecipeDetailsActivity.this, "Cannot add", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         if (null != findViewById(R.id.layout_two_pane)){
@@ -86,6 +103,8 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         else {
             isTwoPaneUi = false;
         }
+
+
     }
 
     public static void setStepFragment(int position) {
@@ -94,12 +113,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         Bundle bundle = new Bundle();
         try {
          Fragment f = fragmentManager.findFragmentById(R.id.container_step_details);
-            if(f != null) {
-              /*  Log.d("replaceFragment","if");
-                Bundle bdl = f.getArguments();
-                bdl.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);*/
-            }
-            else {
+            if(f == null) {
                 List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps().toString());
                 bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
                 bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
@@ -108,7 +122,14 @@ public class RecipeDetailsActivity extends AppCompatActivity{
                 fragmentManager.beginTransaction()
                         .replace(R.id.container_step_details, fragment)
                         .commit();
-                Log.d("replaceFragment","else");
+                Log.d("replaceFragment","if");
+            }
+            else {
+
+
+              /*  Log.d("replaceFragment","else");
+                Bundle bdl = f.getArguments();
+                bdl.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);*/
             }
           /*  List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps().toString());
             bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
@@ -130,7 +151,20 @@ public class RecipeDetailsActivity extends AppCompatActivity{
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_add_to_widget:
+                try {
+                    viewModel.insertIngredients(BakingJsonUtils.parseIngredients(recipe.getIngredients()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_to_widget, menu);
+        return true;
     }
 }

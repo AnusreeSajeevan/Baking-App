@@ -17,6 +17,7 @@ public abstract class BakingDatabase extends RoomDatabase {
 
     //abstract methods for dao
     public abstract RecipeDao getRecipeDao();
+    public abstract IngredientsDao getIngredientsDao();
 
     public static BakingDatabase getNewInstance(Context context){
         if (null == newInstance){

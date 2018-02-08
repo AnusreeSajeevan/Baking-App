@@ -145,7 +145,6 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
      */
     @Override
     public void onRecipeClick(int  recipeId) {
-        Toast.makeText(this, String.valueOf(recipeId), Toast.LENGTH_SHORT).show();
         Intent i = new Intent(RecipeActivity.this, RecipeDetailsActivity.class);
         i.putExtra(KEY_RECIPE_ID, recipeId);
         startActivity(i);

@@ -35,7 +35,7 @@ public class InjectorUtils {
         AppExecutors executors = AppExecutors.getInstance();
         BakingNetworkDataSource networkDataSource =
                 BakingNetworkDataSource.getNewInstance(context.getApplicationContext(), executors);
-        return BakingRepository.getInstance(database.getRecipeDao(), networkDataSource, executors);
+        return BakingRepository.getInstance(database.getRecipeDao(), database.getIngredientsDao(), networkDataSource, executors);
     }
 
     public static RecipeViewModelFactory provideRecipeActivityViewModelFactory(Context context) {
