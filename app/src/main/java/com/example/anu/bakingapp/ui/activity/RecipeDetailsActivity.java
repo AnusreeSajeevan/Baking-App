@@ -24,6 +24,7 @@ import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModel;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModelFactory;
 import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
+import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 import com.example.anu.bakingapp.utils.InjectorUtils;
 
 import org.json.JSONException;
@@ -45,16 +46,20 @@ public class RecipeDetailsActivity extends AppCompatActivity{
     static FragmentManager fragmentManager;
     private RecipeDetailsViewModelFactory factory;
     private RecipeDetailsViewModel viewModel;
+    public static boolean isTwoPaneUi;
+    private CurrentRecipeUtil currentRecipeUtil;
+    private boolean isAddToWidgetClicked = false;
 
     @BindView(R.id.master_list_fragment_container)
     FrameLayout masterListFragment;
-    public static boolean isTwoPaneUi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
         ButterKnife.bind(this);
+
+        currentRecipeUtil = new CurrentRecipeUtil(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getSupportFragmentManager();
@@ -89,10 +94,17 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         viewModel.getIsAdded().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isAddedToWidget) {
-                if (isAddedToWidget)
-                    Toast.makeText(RecipeDetailsActivity.this, "Recipe added to widget", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(RecipeDetailsActivity.this, "Cannot add", Toast.LENGTH_SHORT).show();
+
+                if (isAddToWidgetClicked){
+
+                    if (isAddedToWidget) {
+                        Toast.makeText(RecipeDetailsActivity.this, "Recipe added to widget", Toast.LENGTH_SHORT).show();
+                        currentRecipeUtil.setLatestRecipeDetails(recipeId, recipe.getName());
+
+                    }
+                    else
+                        Toast.makeText(RecipeDetailsActivity.this, "Cannot add", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -153,7 +165,8 @@ public class RecipeDetailsActivity extends AppCompatActivity{
                 return true;
             case R.id.action_add_to_widget:
                 try {
-                    viewModel.insertIngredients(BakingJsonUtils.parseIngredients(recipe.getIngredients()));
+                    isAddToWidgetClicked = true;
+                    viewModel.insertIngredients(BakingJsonUtils.parseIngredients(recipe.getId(),recipe.getIngredients()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

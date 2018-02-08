@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/margin_10"
+    android:background="@color/colorBlack"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorWhite"
+        tools:text="Ingredient name"
+        android:id="@+id/widget_ingredient_name"
+        android:layout_width="0dp"
+        android:layout_weight=".8"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:layout_weight=".2"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/widget_quantity_measure"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

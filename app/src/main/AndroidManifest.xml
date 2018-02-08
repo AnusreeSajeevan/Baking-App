@@ -33,7 +33,13 @@
                 android:resource="@xml/recipe_widget_provider_info" />
         </receiver>
 
-        <activity android:name=".ui.activity.RecipeIngredientsWidgetActivity"></activity>
+        <service android:name=".service.RecipeService"/>
+        <service android:name=".service.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <provider
+            android:name=".data.IngredientContentProvider"
+            android:authorities="com.example.anu.bakingapp"
+            android:exported="true" />
     </application>
 
 </manifest>

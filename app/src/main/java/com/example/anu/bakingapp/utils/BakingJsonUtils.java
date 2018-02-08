@@ -77,17 +77,18 @@ public class BakingJsonUtils {
 
     /**
      * method to parse recipe details to get ingredients and steps
+     * @param recipeId
      * @param ingredients
      *
 //    public static /*List<Ingredient>*/
-    public static List<Ingredient> parseIngredients(String ingredients) throws JSONException {
+    public static List<Ingredient> parseIngredients(int recipeId, String ingredients) throws JSONException {
         Log.d("list",ingredients);
         JSONArray jsonArrayIngredients = new JSONArray(ingredients);
         List<Ingredient> ingredientList = new ArrayList<>();
         for (int i = 0;i<jsonArrayIngredients.length();i++){
             Log.d("list","i : " + i);
             JSONObject jsonObject = jsonArrayIngredients.getJSONObject(i);
-            ingredientList.add(new Ingredient(
+            ingredientList.add(new Ingredient(recipeId,
                     jsonObject.getInt(KEY_INGREDIENTS_QUANTITY),
                     jsonObject.getString(KEY_INGREDIENTS_MEASURE),
                     jsonObject.getString(KEY_INGREDIENT)));

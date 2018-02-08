@@ -107,7 +107,7 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         recyclerViewIngredients.setAdapter(mIngredientsAdapter);
         recyclerViewIngredients.setNestedScrollingEnabled(false);
         try {
-            ingredientList = BakingJsonUtils.parseIngredients(recipe.getIngredients());
+            ingredientList = BakingJsonUtils.parseIngredients(recipeId, recipe.getIngredients());
             mIngredientsAdapter.setIngredientList(ingredientList);
         } catch (JSONException e) {
             e.printStackTrace();

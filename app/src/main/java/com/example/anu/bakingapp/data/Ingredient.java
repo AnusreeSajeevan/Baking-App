@@ -5,43 +5,28 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
-@Entity
+@Entity(primaryKeys = {"recipe_id","ingredient"})
 public class Ingredient {
 
-    @Ignore
-    public static final int INVALID_RECIPE_ID = -1;
 
-    // The authority, which is how your code knows which Content Provider to access
-    @Ignore
-    public static final String AUTHORITY = "com.example.anu.bakingapp.data.database";
-
-    // The base content URI = "content://" + <authority>
-    @Ignore
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
-
-    @Ignore
-    public static final String COLUMN_RECIPE_ID = "recipe_id";
-    public static final String COLUMN_QUANTITY = "quantity";
-    public static final String COLUMN_MEASURE = "measure";
-    public static final String COLUMN_INGREDIENT = "ingredient";
-
-    // Define the possible paths for accessing data in this contract
-    // This is the path for the "ingredients" directory
-    @Ignore
-    public static final String PATH_RECIPES = "recipes";
-
-
-    @PrimaryKey(autoGenerate = true)
     private long id;
-
     @ColumnInfo(name = "recipe_id")
+    @NonNull
     private int recipeId;
+
+    @NonNull
     private int quantity;
+
+    @NonNull
     private String measure;
+
+    @NonNull
     private String ingredient;
 
-    public Ingredient(int quantity, String measure, String ingredient) {
+    public Ingredient(int recipeId, int quantity, String measure, String ingredient) {
+        this.recipeId = recipeId;
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;

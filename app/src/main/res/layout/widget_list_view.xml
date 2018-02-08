@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <GridView
-        android:id="@+id/grid_view_widget"
+    <TextView
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:padding="@dimen/margin_20"
+        android:id="@+id/recipe_name_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:layout_below="@+id/recipe_name_widget"
+        android:id="@+id/list_view_widget"
         android:gravity="center"
         android:layout_width="match_parent"
         android:numColumns="4"
@@ -26,4 +36,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>
