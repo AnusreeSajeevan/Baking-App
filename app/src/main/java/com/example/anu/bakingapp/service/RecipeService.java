@@ -27,7 +27,7 @@ import static com.example.anu.bakingapp.data.IngredientContentProvider.INVALID_R
 
 /**
  * An {@link IntentService} sub class is used to
- * handle an asynchrounus task in a service on a seperate handler thread
+ * handle an asynchronous task in a service on a seperate handler thread
  */
 public class RecipeService extends IntentService {
 

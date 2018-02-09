@@ -1,10 +1,8 @@
 package com.example.anu.bakingapp.ui.activity;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -69,7 +67,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         viewModel.getRecipe().observe(this, recipes -> {
             recipe = recipes;
 
-            getSupportActionBar().setTitle(recipes.getName());
+            getSupportActionBar().setTitle(recipes != null ? recipes.getName() : null);
 
             Fragment fragment = new RecipeDetailsFragment();
             Bundle bundle = new Bundle();

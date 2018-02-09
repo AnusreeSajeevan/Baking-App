@@ -128,7 +128,6 @@ public class BakingRepository {
 
     /**
      * method to insert ingredients
-     * @return InsertIngredientsAsyncTask
      */
     public void insertIngredients(List<Ingredient> ingredients){
         ingredientLists = ingredients;

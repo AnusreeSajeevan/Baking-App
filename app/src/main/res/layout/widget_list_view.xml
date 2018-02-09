@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/ic_restaurant_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:contentDescription="image to be shown if no recipes added" />
+            android:contentDescription="@string/image_to_be_shown_if_no_recipes_added" />
         <TextView
             android:layout_centerInParent="true"
             android:text="@string/no_recipes_added"

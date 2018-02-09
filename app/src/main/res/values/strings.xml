@@ -15,4 +15,6 @@
     <string name="add_to_widget">Add To Widgets</string>
     <string name="no_recipes_added">No recipes added</string>
     <string name="space">&#032;</string>
+    <string name="default_widget_image_content_description">default widget image</string>
+    <string name="image_to_be_shown_if_no_recipes_added">image to be shown if no recipes added</string>
 </resources>

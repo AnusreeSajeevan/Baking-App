@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,7 +153,7 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
     }
 
     /**
-     * method to initialize the mediasession. it should be MediaSessionCompat
+     * method to initialize the media session. it should be MediaSessionCompat
      * set flags for external clients, set the available actions you want to support, and then start the session
      *
      * Initializes the Media Session to be enabled with media buttons, transport controls, callbacks
@@ -165,14 +164,14 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
         //create the media session object
         mediaSession = new MediaSessionCompat(getActivity(), TAG);
 
-        //enabble callbacks from media buttons and transport controls
+        //enable callbacks from media buttons and transport controls
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
 
-        //donot let the media button start the player when app is not visible
+        //do not let the media button start the player when app is not visible
         mediaSession.setMediaButtonReceiver(null);
 
         /*
-         * set initial play back state to atuplay so that media buttons can start the player
+         * set initial play back state to auto play so that media buttons can start the player
          */
         statBuilder = new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PLAY |
@@ -230,7 +229,7 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
         }
         mediaSession.setPlaybackState(statBuilder.build());
     }
-    
+
     @Override
     public void onPlayerError(ExoPlaybackException error) {
 

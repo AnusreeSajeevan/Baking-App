@@ -37,7 +37,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
 
         /*
-         * set {@link ListWidgetService} to act as the adapter for the listview
+         * set {@link ListWidgetService} to act as the adapter for the list view
          */
         Intent intentAdapter = new Intent(context, ListWidgetService.class);
         views.setRemoteAdapter(R.id.list_view_widget, intentAdapter);
