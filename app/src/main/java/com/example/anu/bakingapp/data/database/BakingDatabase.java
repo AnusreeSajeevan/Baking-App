@@ -7,8 +7,9 @@ import android.content.Context;
 
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.data.Thumbnail;
 
-@Database(entities = {Recipe.class, Ingredient.class}, version = 2)
+@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class}, version = 4)
 public abstract class BakingDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
@@ -18,6 +19,7 @@ public abstract class BakingDatabase extends RoomDatabase {
     //abstract methods for dao
     public abstract RecipeDao getRecipeDao();
     public abstract IngredientsDao getIngredientsDao();
+    public abstract ThumbnailDao getThumbnailDao();
 
     public static BakingDatabase getNewInstance(Context context){
         if (null == newInstance){

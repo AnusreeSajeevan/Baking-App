@@ -1,17 +1,27 @@
 package com.example.anu.bakingapp.ui.activity;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,8 +32,12 @@ import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.ui.adapter.RecipeAdapter;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModelFactory;
+import com.example.anu.bakingapp.utils.BakingJsonUtils;
+import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 import com.example.anu.bakingapp.utils.InjectorUtils;
 import com.example.anu.bakingapp.utils.NetworkUtils;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -49,6 +63,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     private BroadcastReceiver broadcastReceiver;
     public static final String KEY_RECIPE_ID = "recipe_id";
     public static final String KEY_RECIPE = "recipe";
+    private CurrentRecipeUtil currentRecipeUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +71,29 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
         setContentView(R.layout.activity_recipe);
         ButterKnife.bind(this);
 
+        currentRecipeUtil = new CurrentRecipeUtil(this);
+
+        //check for storage permission
+        boolean haveStoragePermission = isStoragePermissionGranted();
+        Log.d("haveStoragePermission", "haveStoragePermission : " + haveStoragePermission);
+        if (haveStoragePermission){
+            currentRecipeUtil.setPermissionGranted(true);
+        }
+        else {
+            showPermissionDialog();
+        }
+
         RecipeViewModelFactory factory = InjectorUtils.provideRecipeActivityViewModelFactory(this);
         RecipeViewModel viewModel = ViewModelProviders.of(this, factory).get(RecipeViewModel.class);
 
         viewModel.getRecipeList().observe(this, newRecipes -> {
             mRecipeAdapter.setmRecipeList(newRecipes);
             setViewsVisibility(newRecipes);
-
+            try {
+                viewModel.getThumbnailUrls(RecipeActivity.this, newRecipes);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         });
 
         setupRecyclerView();
@@ -83,6 +114,54 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
                 txtError.setText(getResources().getString(R.string.no_internet_connection));
             }
         });
+    }
+
+    private void updateThumbnail(List<Recipe> newRecipes) {
+    }
+
+    /**
+     * method to check and ask for storage permission
+     * @return
+     */
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.d("haveStoragePermission","Permission is granted");
+                return true;
+            } else {
+                Log.d("haveStoragePermission","Permission is revoked");
+//                showPermissionDialog();
+                //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.d("haveStoragePermission","Permission is granted");
+            return true;
+        }
+    }
+
+    /**
+     * method to show dialog to indicate user about importance of granting storage permission
+     */
+    private void showPermissionDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Grant Storage Permission");
+        alertDialog.setMessage("Grant storage permission so that images will load faster next time");
+        alertDialog.setPositiveButton("GRANT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ActivityCompat.requestPermissions(RecipeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        alertDialog.show();
     }
 
     /**
@@ -160,5 +239,28 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_grant_permission:
+                isStoragePermissionGranted();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_permission, menu);
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] ==PackageManager.PERMISSION_GRANTED)
+            currentRecipeUtil.setPermissionGranted(true);
     }
 }

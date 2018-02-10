@@ -10,6 +10,7 @@ public class CurrentRecipeUtil {
     private static final String PREF_NAME = "pref_recipe";
     private static final String KEY_RECIPE_ID = "recipe_id";
     private static final String KEY_RECIPE_NAME = "recipe_name";
+    private static final String KEY_HAVE_STORAGE_PERMISSION = "have_storage_permission";
 
     private static SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
@@ -35,4 +36,14 @@ public class CurrentRecipeUtil {
         editor.putString(KEY_RECIPE_NAME, recipeName);
         editor.commit();
     }
+
+    public static boolean getKeyIsStoragePermissionGranted() {
+        return preferences.getBoolean(KEY_RECIPE_ID, false);
+    }
+
+    public void setPermissionGranted(boolean havePermission) {
+        editor.putBoolean(KEY_HAVE_STORAGE_PERMISSION, havePermission);
+        editor.commit();
+    }
+
 }

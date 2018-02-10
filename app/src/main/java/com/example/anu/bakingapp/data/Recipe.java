@@ -1,7 +1,9 @@
 package com.example.anu.bakingapp.data;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,10 +15,21 @@ public class Recipe implements Parcelable{
     private String name;
     private String ingredients;
 
+    private String thumbnailPath;
+
+    public Recipe(int id, String name, String ingredients, String steps, String thumbnailPath) {
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.thumbnailPath = thumbnailPath;
+        this.steps = steps;
+    }
+
     protected Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
         ingredients = in.readString();
+        thumbnailPath = in.readString();
         steps = in.readString();
     }
 
@@ -64,14 +77,15 @@ public class Recipe implements Parcelable{
         this.steps = steps;
     }
 
-    public Recipe(int id, String name, String ingredients, String steps) {
-        this.id = id;
-        this.name = name;
-        this.ingredients = ingredients;
-        this.steps = steps;
+    private String steps;
+
+    public String getThumbnailPath() {
+        return thumbnailPath;
     }
 
-    private String steps;
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
+    }
 
     @Override
     public int describeContents() {
@@ -83,6 +97,7 @@ public class Recipe implements Parcelable{
         parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(ingredients);
+        parcel.writeString(thumbnailPath);
         parcel.writeString(steps);
     }
 }

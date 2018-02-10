@@ -27,4 +27,10 @@ public interface RecipeDao {
 
     @Query("SELECT * FROM recipe WHERE id = :id")
     LiveData<Recipe> getRecipeWithId(int id);
+
+    @Query("SELECT thumbnailPath FROM recipe WHERE id = :id")
+    String getRecipeThumbnail(int id);
+
+    @Query("UPDATE recipe SET thumbnailPath = :path WHERE id = :id")
+    int updateRecipeThumbnail(int id, String path);
 }

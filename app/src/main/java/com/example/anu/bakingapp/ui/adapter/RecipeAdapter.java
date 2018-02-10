@@ -1,7 +1,10 @@
 package com.example.anu.bakingapp.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
-import com.example.anu.bakingapp.utils.RecipeImageUtils;
+import com.example.anu.bakingapp.utils.GlideApp;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -49,9 +52,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
         Recipe recipe = mRecipeList.get(holder.getAdapterPosition());
         holder.txtRecipeName.setText(recipe.getName());
 
-        Picasso.with(mContext)
-                .load(RecipeImageUtils.getRecipeImages().get(holder.getAdapterPosition()))
-                .into(holder.imgBack);
+       setImageThumbnail(holder, recipe.getThumbnailPath());
 
         try {
             int ingredientsCount;
@@ -86,5 +87,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
     public void setmRecipeList(List<Recipe> recipeList) {
         this.mRecipeList = recipeList;
         notifyDataSetChanged();
+    }
+
+    private void setImageThumbnail(final RecipeHolder holder, String url) {
+        Log.d("setImageThumbnail", "setImageThumbnail");
+        Log.d("setImageThumbnail", "url : " + url);
+        GlideApp.with(holder.imgBack)
+                .load(url)
+                .placeholder(R.drawable.ic_restaurant_icon)
+                .into(holder.imgBack);
     }
 }
