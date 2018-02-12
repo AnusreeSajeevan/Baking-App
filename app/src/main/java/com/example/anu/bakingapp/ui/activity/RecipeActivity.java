@@ -80,6 +80,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
             currentRecipeUtil.setPermissionGranted(true);
         }
         else {
+//            ActivityCompat.requestPermissions(RecipeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             showPermissionDialog();
         }
 
@@ -147,9 +148,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
      */
     private void showPermissionDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.layout_permission, null);
+        alertDialog.setView(dialogView);
         alertDialog.setTitle("Grant Storage Permission");
         alertDialog.setMessage("Grant storage permission so that images will load faster next time");
-        alertDialog.setPositiveButton("GRANT", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ActivityCompat.requestPermissions(RecipeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);

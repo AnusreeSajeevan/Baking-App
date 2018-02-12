@@ -77,6 +77,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
         for (int i=0; i<stepThumbnails.size(); i++){
             Log.d("CheckStepThumbnail","i : "+ i);
            StepThumbnail stepThumbnail = stepThumbnails.get(i);
+           if (mStepsList.get(stepThumbnail.getStepId()) != null)
            mStepsList.get(stepThumbnail.getStepId()).setThumbnailPath(stepThumbnail.getThumbnailPath());
         }
         notifyDataSetChanged();

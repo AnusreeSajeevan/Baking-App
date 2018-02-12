@@ -16,6 +16,7 @@ import com.example.anu.bakingapp.data.database.StepThumbnailDao;
 import com.example.anu.bakingapp.data.database.ThumbnailDao;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
+import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 
 import org.json.JSONArray;
 
@@ -292,9 +293,11 @@ public class BakingRepository {
                     }
                 }
 
-                //create thumbnail paths
-                if (thumbnails.size() != 0 || !thumbnails.isEmpty()){
-                    new GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
+                if (CurrentRecipeUtil.getKeyIsStoragePermissionGranted()) {
+                    //create thumbnail paths
+                    if (thumbnails.size() != 0 || !thumbnails.isEmpty()) {
+                        new GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
+                    }
                 }
             });
     }
