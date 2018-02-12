@@ -1,5 +1,6 @@
 package com.example.anu.bakingapp.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,15 @@ import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
 import com.example.anu.bakingapp.ui.activity.StepDetailsActivity;
 import com.example.anu.bakingapp.ui.adapter.IngredientsAdapter;
 import com.example.anu.bakingapp.ui.adapter.StepsAdapter;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModel;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModelFactory;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
+import com.example.anu.bakingapp.utils.InjectorUtils;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,6 +64,8 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
     private List<Step> stepList = new ArrayList<>();
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
     private Recipe recipe;
+    private RecipeDetailsViewModelFactory factory;
+    public RecipeDetailsViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +86,25 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
 
         unbinder = ButterKnife.bind(this, view);
 
+        factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getActivity());
+        viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
+
+        try {
+            viewModel.getStepThumbnailList(recipe.getId()).observe(getActivity(), newStepsThumbnailList->{
+                Log.d("CheckPathsStepss","newStepsThumbnailList : " + newStepsThumbnailList);
+                if (newStepsThumbnailList.size() != 0)
+                    msStepsAdapter.updateThumbnail(newStepsThumbnailList);
+            });
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+
+
+        try {
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         setUpIngredientsRecyclerView();
         setUpStepsRecyclerView();
 
@@ -90,10 +117,15 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         recyclerViewSteps.setAdapter(msStepsAdapter);
         recyclerViewSteps.setNestedScrollingEnabled(false);
         try {
-            stepList = BakingJsonUtils.parseSteps(recipe.getSteps());
+            stepList = BakingJsonUtils.parseSteps(recipeId, recipe.getSteps());
             msStepsAdapter.setStepsList(stepList);
+            Log.d("AnuCheckStepss","recipe.getId() : " + recipe.getId());
+            Log.d("AnuCheckStepss","stepList size : " + stepList.size());
+            viewModel.setStepThumbnails(getActivity(), recipe.getId(), stepList);
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 

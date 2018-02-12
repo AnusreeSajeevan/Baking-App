@@ -85,7 +85,6 @@ public class BakingNetworkDataSource {
                                     recipe = BakingJsonUtils.getRecipeListFromJson(jsonArray);
                                     recipes = recipe;
                                     mDownloadedRecipes.postValue(recipe);
-//                                    getThumbnailUrls(recipes);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -96,21 +95,4 @@ public class BakingNetworkDataSource {
                 AppController.getInstance().addToRequestQueue(stringRequest, tag);
             });
     }
-
-  /*  private void getThumbnailUrls(Recipe[] recipes) throws Throwable {
-        Log.d("getBitmapp","getBitmap");
-        Log.d("getBitmapp","length : " + recipes.length);
-        ArrayList<Thumbnail> thumbnails = new ArrayList<>();
-        for (int i=0;i<recipes.length;i++){
-            Thumbnail thumbnail = new Thumbnail();
-            thumbnail.setPath(recipes[i].getThumbnailPath());
-            thumbnail.setPosition(i);
-            thumbnails.add(thumbnail);
-        }
-        Log.d("getBitmapp","1 : : ");
-        Log.d("getBitmapp","thumbnails.size() : " + thumbnails.size());
-        if (thumbnails.size() > 0*//* && !mView.isRunningTest()*//*) {
-            new GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
-        }
-    }*/
 }

@@ -2,10 +2,14 @@ package com.example.anu.bakingapp.ui.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
+import android.util.Log;
 
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.data.StepThumbnail;
 
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class RecipeDetailsViewModel extends ViewModel {
     private int recipeId;
     private final BakingRepository bakingRepository;
     private LiveData<Boolean> isAdded;
-
+    private LiveData<List<StepThumbnail>> stepThumbnailList;
     public RecipeDetailsViewModel(BakingRepository bakingRepository) {
        this.bakingRepository = bakingRepository;
     }
@@ -32,6 +36,15 @@ public class RecipeDetailsViewModel extends ViewModel {
         this.recipe = recipe;
     }
 
+
+    public void setStepThumbnailList(LiveData<List<StepThumbnail>> stepThumbnailList) {
+        this.stepThumbnailList = stepThumbnailList;
+    }
+
+    public LiveData<List<StepThumbnail>> getStepThumbnailList(int recipeId) {
+        return bakingRepository.getStepThumbnailList(recipeId);
+    }
+
     /**
      * wrapper method to insert ingredients to the database,
      * this way, the implementation for insert is completely hidden from the ui
@@ -44,4 +57,15 @@ public class RecipeDetailsViewModel extends ViewModel {
     public LiveData<Boolean> getIsAdded() {
         return bakingRepository.getIsAddedToWidget();
     }
+
+    public void setStepThumbnails(Context context, int recipeId, List<Step> stepList) throws Throwable {
+        Log.d("AnuCheckStepss","setStepThumbnails");
+        Log.d("AnuCheckStepss","recipeId : " + recipeId);
+        Log.d("AnuCheckStepss","stepList sizeee : " + stepList.size());
+        bakingRepository.getStepThumbnails(context, recipeId, stepList);
+    }
+
+   /* public LiveData<List<StepThumbnail>> getStepThumbnailsList(int recipeId) throws Throwable {
+        return bakingRepository.setStepThumbnails(recipeId);
+    }*/
 }

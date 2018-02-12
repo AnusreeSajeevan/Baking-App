@@ -105,7 +105,7 @@ public class BakingJsonUtils {
      * method to parse steps details to get steps
      * @param steps step object
      */
-    public static List<Step> parseSteps(String steps) throws JSONException {
+    public static List<Step> parseSteps(int recipeId, String steps) throws JSONException {
         JSONArray jsonArraySteps = new JSONArray(steps);
         List<Step> stepsList = new ArrayList<>();
         for (int i = 0;i<jsonArraySteps.length();i++){
@@ -125,10 +125,11 @@ public class BakingJsonUtils {
 
             stepsList.add(new Step(
                     jsonObject.getInt(KEY_STEPS_ID),
+                    recipeId,
                     jsonObject.getString(KEY_STEPS_SHORT_DESCRIPTION),
                     jsonObject.getString(KEY_STEPS_DESCRIPTION),
                     video,
-                    thumbNail));
+                    thumbNail, i));
         }
         return stepsList;
     }

@@ -2,13 +2,14 @@ package com.example.anu.bakingapp.data;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(primaryKeys = {"recipe_id","path"})
+@Entity
 public class Thumbnail {
 
     @ColumnInfo(name = "recipe_id")
-    @NonNull
+    @PrimaryKey
     private int recipeId;
 
     @NonNull

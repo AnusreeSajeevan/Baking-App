@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.anu.bakingapp.AppExecutors;
 import com.example.anu.bakingapp.data.database.IngredientsDao;
 import com.example.anu.bakingapp.data.database.RecipeDao;
+import com.example.anu.bakingapp.data.database.StepThumbnailDao;
 import com.example.anu.bakingapp.data.database.ThumbnailDao;
 import com.example.anu.bakingapp.data.network.BakingNetworkDataSource;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
@@ -30,11 +31,13 @@ public class BakingRepository {
     private final RecipeDao recipeDao;
     private final IngredientsDao ingredientsDao;
     private final ThumbnailDao thumbnailDao;
+    private final StepThumbnailDao stepThumbnailDao;
     private final BakingNetworkDataSource networkDataSource;
     private final AppExecutors appExecutors;
 
 
     private final MutableLiveData<Boolean> isAddedToWidget = new MutableLiveData<>();
+//    private final MutableLiveData<List<StepThumbnail>> stepThumbnailList = new MutableLiveData<>();
 
     //for singleton instantiation
     private static final Object LOCK = new Object();
@@ -42,13 +45,16 @@ public class BakingRepository {
 
     private boolean mInitialized = false;
     private List<Ingredient> ingredientLists = new ArrayList<>();
+    private List<StepThumbnail> stepThumbnails = new ArrayList<>();
     private Context context;
+    private MutableLiveData<StepThumbnail[]> stepThumbnailList = new MutableLiveData<StepThumbnail[]>();
 
-    private BakingRepository(RecipeDao recipeDao, IngredientsDao ingredientsDao, ThumbnailDao thumbnailDao,
+    private BakingRepository(RecipeDao recipeDao, IngredientsDao ingredientsDao, ThumbnailDao thumbnailDao, StepThumbnailDao stepThumbnailDao,
                              BakingNetworkDataSource networkDataSource, AppExecutors appExecutors) {
         this.recipeDao = recipeDao;
         this.ingredientsDao = ingredientsDao;
         this.thumbnailDao = thumbnailDao;
+        this.stepThumbnailDao = stepThumbnailDao;
         this.networkDataSource = networkDataSource;
         this.appExecutors = appExecutors;
         LiveData<Recipe[]> recipes = networkDataSource.getmDownloadedRecipes();
@@ -69,10 +75,10 @@ public class BakingRepository {
      * make repository singleton
      */
     public synchronized static BakingRepository getInstance(RecipeDao recipeDao, IngredientsDao ingredientsDao, ThumbnailDao thumbnailDao,
-                                                            BakingNetworkDataSource networkDataSource, AppExecutors appExecutors){
+                                                            StepThumbnailDao stepThumbnailDao, BakingNetworkDataSource networkDataSource, AppExecutors appExecutors){
         if (null == newInstance){
             synchronized (LOCK){
-                newInstance = new BakingRepository(recipeDao, ingredientsDao, thumbnailDao, networkDataSource, appExecutors);
+                newInstance = new BakingRepository(recipeDao, ingredientsDao, thumbnailDao, stepThumbnailDao, networkDataSource, appExecutors);
             }
         }
         return newInstance;
@@ -152,9 +158,14 @@ public class BakingRepository {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            Ingredient[] ingredients = ingredientLists.toArray(new Ingredient[ingredientLists.size()]);
-            long[] ids = ingredientsDao.insertIngredients(ingredients);
-            return ids.length > 0;
+            final long[][] ids = new long[1][1];
+            appExecutors.diskIO().execute(()->{
+                Ingredient[] ingredients = ingredientLists.toArray(new Ingredient[ingredientLists.size()]);
+
+                ids[0] = ingredientsDao.insertIngredients(ingredients);
+
+            });
+            return ids[0].length > 0;
         }
 
         @Override
@@ -163,29 +174,99 @@ public class BakingRepository {
         }
     }
 
+    public LiveData<List<StepThumbnail>> getStepThumbnailList(int recipeId) {
+        initializeData();
+        return stepThumbnailDao.getAllThumbnails(recipeId);
+    }
+
     public MutableLiveData<Boolean> getIsAddedToWidget() {
         initializeData();
         return isAddedToWidget;
     }
 
+    public void getStepThumbnails(Context context, int recipeId, List<Step> stepList) {
+        initializeData();
+        List<Step> steps = new ArrayList<>();
+        appExecutors.networkIO().execute(()->{
+            for (int i=0;i<stepList.size();i++){
+                Step step = stepList.get(i);
+                boolean isStepThumnailExists = isStepThumbnailExists(recipeId, step.getId());
+                /**
+                 * if isStepThumnailExists = false, just add stepthubnail to list {@link steps}
+                 */
+
+                if (!isStepThumnailExists){
+                    steps.add(step);
+                    createThumbnail(recipeId, step);
+
+                }
+            }
+        });
+    }
+
+    private void createThumbnail(int recipeId, Step step) {
+            Bitmap bitmap = null;
+            MediaMetadataRetriever mediaMetadataRetriever = null;
+            try {
+                mediaMetadataRetriever = new MediaMetadataRetriever();
+                String path = "";
+                if (step.getThumbnailPath() != null){
+                    path = step.getThumbnailPath();
+                }else if (step.getVideoURL() != null){
+                    path = step.getVideoURL();
+                }
+                if (path != null){
+                    mediaMetadataRetriever.setDataSource(path, new HashMap<String, String>());
+                    bitmap = mediaMetadataRetriever.getFrameAtTime(8000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (mediaMetadataRetriever != null) {
+                    mediaMetadataRetriever.release();
+                }
+            }
+
+            String path = "";
+            if (bitmap != null) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+                path = MediaStore.Images.Media.insertImage(
+                        context.getContentResolver(),
+                        bitmap, "tmp_step_thumb" + step.getRecipeId() + "_" + step.getId(), null);
+                long id = stepThumbnailDao.insertSingleStepThumbnail(new StepThumbnail(recipeId, step.getId(), path));
+            }
+    }
+
+    public void getStepThumbnails(int recipeId) {
+        stepThumbnailList.postValue(stepThumbnailDao.getThumbnailsWithRecipeId(recipeId));
+    }
+
+
+    /**
+     * method to determine if step thumnail exists
+     * @return true if exists, false othetwise
+     */
+    private boolean isStepThumbnailExists(int recipeId, int stepId) {
+        int stepThumnailCount = stepThumbnailDao.getThumbnailCountWithId(recipeId, stepId);
+        if (stepThumnailCount > 0)
+            return true;
+        else
+            return false;
+    }
+
     public void updateThumbnailUrls(Context context, List<Recipe> recipes) throws Throwable {
-        Log.d("ThumbnailCountCheck","BakingRepository");
-        Log.d("ThumbnailCountCheck","recipes count : " + recipes.size());
         this.context = context;
             appExecutors.networkIO().execute(()->{
                 List<Thumbnail> thumbnails = new ArrayList<>();
                 for (Recipe recipe : recipes) {
-                    Log.d("ThumbnailCountCheck", "for");
                     int recipeId = recipe.getId();//get thumbnail url from recipe table, it is used to determine recipe thumbnail has been loaded already
                     String thumbnailUrlInRecipeTable = recipeDao.getRecipeThumbnail(recipeId);
-                    Log.d("ThumbnailCountCheck","thumbnailUrlInRecipeTable : " +thumbnailUrlInRecipeTable);
 
                     if (thumbnailUrlInRecipeTable.equals("") || thumbnailUrlInRecipeTable == null){
-                        Log.d("ThumbnailCountCheck","in if");
 
                         //get number of rows in the thumbnail table with correcponding recipe id
                         Thumbnail thumbnail = thumbnailDao.getThumbnailCountWithId(recipeId);
-                        Log.d("ThumbnailCountCheck","....");
 
                         if (thumbnail != null){
                             /**
@@ -193,17 +274,14 @@ public class BakingRepository {
                              * get path from it and save to recipe table for the corresponding recipe
                              */
                             int numUpdatedColumns = recipeDao.updateRecipeThumbnail(recipeId, thumbnail.getPath());
-                            Log.d("ThumbnailCountCheck","numUpdatedColumns : " + numUpdatedColumns);
                         }
                         else {
                             /**
                              * thumbnail does not already exist in thumbnail table
                              * create thumbnail
                              */
-                            Log.d("ThumbnailCountCheck","does not already exists");
                             try {
                                 String thumbnailUrl = BakingJsonUtils.getThumbnailUrl(new JSONArray(recipe.getSteps()));
-                                Log.d("ThumbnailCountCheck","thumbnail url : " + thumbnailUrl);
                                 if (!thumbnailUrl.isEmpty() || !thumbnail.equals("")){//**//* && !mView.isRunningTest()*//**//*) {
                                         thumbnails.add(new Thumbnail(recipe.getId(), thumbnailUrl));
                                 }
@@ -219,36 +297,17 @@ public class BakingRepository {
                     new GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
                 }
             });
-       // boolean isThumbnailExists = getIsThumbnailExists();
-        /*Log.d("getBitmapp","getBitmap");
-        Log.d("getBitmapp","length : " + recipes.length);
-        ArrayList<Thumbnail> thumbnails = new ArrayList<>();
-        for (int i=0;i<recipes.length;i++){
-            Thumbnail thumbnail = new Thumbnail();
-            thumbnail.setPath(recipes[i].getThumbnailPath());
-            thumbnail.setPosition(i);
-            thumbnails.add(thumbnail);
-        }
-        Log.d("getBitmapp","1 : : ");
-        Log.d("getBitmapp","thumbnails.size() : " + thumbnails.size());
-        if (thumbnails.size() > 0*//**//* && !mView.isRunningTest()*//**//*) {
-            new BakingNetworkDataSource.GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
-        }*/
     }
 
      private class GetVideoThumbnailTask extends AsyncTask<Thumbnail, Thumbnail, Thumbnail[]> {
         @Override
         protected Thumbnail[] doInBackground(Thumbnail... thumbnails) {
-            Log.d("GetVideoThumbnailTask","doInBackground");
             Thumbnail[] thumbnailResult = new Thumbnail[thumbnails.length];
             for (int i = 0; i < thumbnails.length; i++) {
-                Log.d("GetVideoThumbnailTask","i : " + i);
                 Bitmap bitmap = null;
                 MediaMetadataRetriever mediaMetadataRetriever = null;
                 try {
                     mediaMetadataRetriever = new MediaMetadataRetriever();
-                    Log.d("GetVideoThumbnailTask","mediaMetadataRetriever");
-                    Log.d("GetVideoThumbnailTask","thumbnails[i].getPath() : " + thumbnails[i].getPath());
                     mediaMetadataRetriever.setDataSource(thumbnails[i].getPath(), new HashMap<String, String>());
                     bitmap = mediaMetadataRetriever.getFrameAtTime(8000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
                 } catch (Exception e) {
@@ -266,7 +325,6 @@ public class BakingRepository {
                     path = MediaStore.Images.Media.insertImage(
                             context.getContentResolver(),
                             bitmap, "tmp_recipe_thumb" + thumbnails[i].getRecipeId(), null);
-                    Log.d("GetVideoThumbnailTask","path : " + path);
                 }
 
                 Thumbnail thumbnail = new Thumbnail(thumbnails[i].getRecipeId(), path);
@@ -287,10 +345,6 @@ public class BakingRepository {
 
         }
     }
-
-/*    private boolean getIsThumbnailExists() {
-        thumbnailDao.getThumbnailCountWithId();
-    }*/
 
 
 }

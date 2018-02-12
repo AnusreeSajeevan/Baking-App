@@ -45,16 +45,16 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     public void onDataSetChanged() {
         CurrentRecipeUtil currentRecipeUtil = new CurrentRecipeUtil(context);
         String currentRecipeId = String.valueOf(currentRecipeUtil.getKeyRecipeId());
-        // Get all ingredients corresponding to recipeId
-        Uri INGREDIENT_URI = CONTENT_URI.buildUpon().appendPath(currentRecipeId).build();
-        if (cursor != null) cursor.close();
-        cursor = context.getContentResolver().query(
-                INGREDIENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
+            // Get all ingredients corresponding to recipeId
+            Uri INGREDIENT_URI = CONTENT_URI.buildUpon().appendPath(currentRecipeId).build();
+            if (cursor != null) cursor.close();
+            cursor = context.getContentResolver().query(
+                    INGREDIENT_URI,
+                    null,
+                    null,
+                    null,
+                    null
+            );
     }
 
     @Override

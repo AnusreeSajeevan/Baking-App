@@ -105,7 +105,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         try {
          Fragment f = fragmentManager.findFragmentById(R.id.container_step_details);
             if(f == null) {
-                List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps());
+                List<Step> stepsList = BakingJsonUtils.parseSteps(recipeId, recipe.getSteps());
                 bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
                 bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
                 bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);

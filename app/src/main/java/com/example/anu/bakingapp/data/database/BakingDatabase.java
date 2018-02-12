@@ -7,9 +7,11 @@ import android.content.Context;
 
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.data.StepThumbnail;
 import com.example.anu.bakingapp.data.Thumbnail;
 
-@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class}, version = 4)
+@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class, StepThumbnail.class}, version = 9)
 public abstract class BakingDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
@@ -20,11 +22,14 @@ public abstract class BakingDatabase extends RoomDatabase {
     public abstract RecipeDao getRecipeDao();
     public abstract IngredientsDao getIngredientsDao();
     public abstract ThumbnailDao getThumbnailDao();
+    public abstract StepThumbnailDao getStepsThumbnailDao();
 
     public static BakingDatabase getNewInstance(Context context){
         if (null == newInstance){
             synchronized (LOCK){
-                newInstance = Room.databaseBuilder(context, BakingDatabase.class, DATABASE_NAME).build();
+                newInstance = Room.databaseBuilder(context, BakingDatabase.class, DATABASE_NAME)
+               // .fallbackToDestructiveMigration()
+                .build();
             }
         }
         return newInstance;

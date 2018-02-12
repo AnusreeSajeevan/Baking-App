@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
         holder.txtRecipeName.setText(recipe.getName());
 
        setImageThumbnail(holder, recipe.getThumbnailPath());
+
+
+        boolean isExists = isFilePresent("tmp_recipe_thumb"+recipe.getId());
+        Log.d("CheckkPaths","path : " + isExists);
 
         try {
             int ingredientsCount;
@@ -94,7 +99,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
         Log.d("setImageThumbnail", "url : " + url);
         GlideApp.with(holder.imgBack)
                 .load(url)
-                .placeholder(R.drawable.ic_restaurant_icon)
+                .error(R.drawable.thumbnail_placeholder)
+                .placeholder(R.drawable.thumbnail_placeholder)
                 .into(holder.imgBack);
+    }
+
+    public boolean isFilePresent(String fileName) {
+        File file = mContext.getFileStreamPath(fileName);
+        return file.exists();
     }
 }

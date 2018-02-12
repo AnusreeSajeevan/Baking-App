@@ -14,6 +14,10 @@ import java.util.List;
 
 
 public class RecipeViewModel extends ViewModel {
+
+    private final LiveData<List<Recipe>> recipeList;
+    private final BakingRepository bakingRepository;
+
     public LiveData<List<Recipe>> getRecipeList() {
         return recipeList;
     }
@@ -22,9 +26,6 @@ public class RecipeViewModel extends ViewModel {
         this.bakingRepository = bakingRepository;
         recipeList = bakingRepository.getRecipeList();
     }
-
-    private final LiveData<List<Recipe>> recipeList;
-    private final BakingRepository bakingRepository;
 
     public void deleteRecipes(){
         bakingRepository.deleteRecipes();

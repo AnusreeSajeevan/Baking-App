@@ -63,12 +63,12 @@ public class IngredientContentProvider extends ContentProvider {
         if (uriMatch == CODE_INGREDIENT_WITH_RECIPE_ID) {
             final Context context = getContext();
             IngredientsDao ingredientsDao = BakingDatabase.getNewInstance(context).getIngredientsDao();
-            final Cursor cursor;
+            Cursor cursor;
             String[] recipeId = new String[]{uri.getLastPathSegment()};
-            cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
-            assert context != null;
-            cursor.setNotificationUri(context.getContentResolver(), uri);
-            return cursor;
+                cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
+                assert context != null;
+                cursor.setNotificationUri(context.getContentResolver(), uri);
+                return cursor;
         } else {
             throw new IllegalArgumentException("Unknown URI: " + uri);
         }

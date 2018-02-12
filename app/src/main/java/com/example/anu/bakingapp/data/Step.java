@@ -1,24 +1,33 @@
 package com.example.anu.bakingapp.data;
 
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Step implements Parcelable {
+public class Step implements Parcelable{
     private int id;
+    private int recipeId;
     private String shortDescription;
     private String description;
     private String videoURL;
     private String thumbnailURL;
+    private String thumbnailPath;
+    private int pos;
 
 
     private Step(Parcel in) {
         id = in.readInt();
+        recipeId = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
         videoURL = in.readString();
         thumbnailURL = in.readString();
+        thumbnailPath = in.readString();
+        pos = in.readInt();
     }
+
 
     public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override
@@ -68,15 +77,41 @@ public class Step implements Parcelable {
         this.thumbnailURL = thumbnailURL;
     }
 
+    public String getThumbnailPath() {
+        return thumbnailPath;
+    }
+
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
     public String getShortDescription() {
         return shortDescription;
     }
-    public Step(int id, String shortDescription, String description, String videoURL, String thumbnailURL) {
+    public Step(int id, int recipeId, String shortDescription, String description, String videoURL, String thumbnailURL, int pos) {
         this.id = id;
+        this.recipeId = recipeId;
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoURL = videoURL;
         this.thumbnailURL = thumbnailURL;
+        this.pos = pos;
     }
 
     @Override
@@ -87,9 +122,12 @@ public class Step implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
+        parcel.writeInt(recipeId);
         parcel.writeString(shortDescription);
         parcel.writeString(description);
         parcel.writeString(videoURL);
         parcel.writeString(thumbnailURL);
+        parcel.writeString(thumbnailPath);
+        parcel.writeInt(pos);
     }
 }

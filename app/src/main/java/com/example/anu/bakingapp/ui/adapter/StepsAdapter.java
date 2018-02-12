@@ -2,12 +2,15 @@ package com.example.anu.bakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.data.StepThumbnail;
+import com.example.anu.bakingapp.utils.GlideApp;
 
 import java.util.List;
 
@@ -37,6 +40,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
         final Step steps = mStepsList.get(holder.getAdapterPosition());
         holder.txtBriefDescription.setText(steps.getShortDescription());
         holder.layoutMain.setOnClickListener(view -> stepClickListener.onStepClick(holder.getAdapterPosition()));
+
+        GlideApp.with(holder.imgBack)
+                .load(steps.getThumbnailPath())
+                .placeholder(R.drawable.thumbnail_placeholder)
+                .error(R.drawable.thumbnail_placeholder)
+                .into(holder.imgBack);
     }
 
     @Override
@@ -54,6 +63,22 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
      */
     public void setStepsList(List<Step> stepsList) {
         this.mStepsList = stepsList;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * method to update step thumbnail
+     *
+     * @param stepThumbnails
+     */
+    public void updateThumbnail(List<StepThumbnail> stepThumbnails) {
+        Log.d("checkkkkThumbnails","mStepsList size : " + mStepsList.size());
+        Log.d("checkkkkThumbnails","stepThumbnails size : " + stepThumbnails.size());
+        for (int i=0; i<stepThumbnails.size(); i++){
+            Log.d("CheckStepThumbnail","i : "+ i);
+           StepThumbnail stepThumbnail = stepThumbnails.get(i);
+           mStepsList.get(stepThumbnail.getStepId()).setThumbnailPath(stepThumbnail.getThumbnailPath());
+        }
         notifyDataSetChanged();
     }
 }
