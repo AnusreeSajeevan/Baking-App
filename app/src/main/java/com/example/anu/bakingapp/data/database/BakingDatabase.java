@@ -11,7 +11,7 @@ import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.data.StepThumbnail;
 import com.example.anu.bakingapp.data.Thumbnail;
 
-@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class, StepThumbnail.class}, version = 9)
+@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class, StepThumbnail.class}, version = 11)
 public abstract class BakingDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
@@ -28,7 +28,7 @@ public abstract class BakingDatabase extends RoomDatabase {
         if (null == newInstance){
             synchronized (LOCK){
                 newInstance = Room.databaseBuilder(context, BakingDatabase.class, DATABASE_NAME)
-               // .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .build();
             }
         }

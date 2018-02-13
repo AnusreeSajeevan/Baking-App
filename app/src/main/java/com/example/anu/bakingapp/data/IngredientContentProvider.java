@@ -34,7 +34,7 @@ public class IngredientContentProvider extends ContentProvider {
     public static final String COLUMN_RECIPE_ID = "recipe_id";
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_MEASURE = "measure";
-    public static final String COLUMN_INGREDIENT = "ingredient";
+    public static final String COLUMN_INGREDIENT = "ingredients";
 
     public static final int INVALID_RECIPE_ID = -1;
 
@@ -63,12 +63,12 @@ public class IngredientContentProvider extends ContentProvider {
         if (uriMatch == CODE_INGREDIENT_WITH_RECIPE_ID) {
             final Context context = getContext();
             IngredientsDao ingredientsDao = BakingDatabase.getNewInstance(context).getIngredientsDao();
-            Cursor cursor;
+            final Cursor cursor;
             String[] recipeId = new String[]{uri.getLastPathSegment()};
-                cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
-                assert context != null;
-                cursor.setNotificationUri(context.getContentResolver(), uri);
-                return cursor;
+            cursor = ingredientsDao.getIngredientWithId(Integer.parseInt(recipeId[0]));
+            assert context != null;
+            cursor.setNotificationUri(context.getContentResolver(), uri);
+            return cursor;
         } else {
             throw new IllegalArgumentException("Unknown URI: " + uri);
         }

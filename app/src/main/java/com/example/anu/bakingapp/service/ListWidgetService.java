@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.example.anu.bakingapp.R;
@@ -45,16 +46,21 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     public void onDataSetChanged() {
         CurrentRecipeUtil currentRecipeUtil = new CurrentRecipeUtil(context);
         String currentRecipeId = String.valueOf(currentRecipeUtil.getKeyRecipeId());
-            // Get all ingredients corresponding to recipeId
-            Uri INGREDIENT_URI = CONTENT_URI.buildUpon().appendPath(currentRecipeId).build();
-            if (cursor != null) cursor.close();
+        int recipe_id = currentRecipeUtil.getKeyRecipeId();
+        Log.d("CheckingWidgets","CheckingWidgets");
+        if (recipe_id != -1){
+            Log.d("CheckingWidgets", "else");
+            Uri RECIPE_URI = CONTENT_URI.buildUpon().appendPath(String.valueOf(recipe_id)).build();
             cursor = context.getContentResolver().query(
-                    INGREDIENT_URI,
+                    RECIPE_URI,
                     null,
                     null,
                     null,
                     null
             );
+        }
+        else {
+        }
     }
 
     @Override

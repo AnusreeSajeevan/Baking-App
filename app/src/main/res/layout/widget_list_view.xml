@@ -21,16 +21,11 @@
         android:numColumns="4"
         android:layout_height="match_parent"/>
     <RelativeLayout
+        android:layout_below="@+id/recipe_name_widget"
         android:id="@+id/layout_empty"
+        android:background="@color/colorBlack"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_centerInParent="true"
-            android:alpha=".2"
-            app:srcCompat="@drawable/ic_restaurant_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/image_to_be_shown_if_no_recipes_added" />
         <TextView
             android:layout_centerInParent="true"
             android:text="@string/no_recipes_added"

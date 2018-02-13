@@ -4,11 +4,9 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
-@Entity(primaryKeys = {"recipe_id","ingredient"})
+@Entity(primaryKeys = {"recipe_id","ingredients"})
 public class Ingredient {
 
-
-    private long id;
     @ColumnInfo(name = "recipe_id")
     @NonNull
     private int recipeId;
@@ -20,13 +18,13 @@ public class Ingredient {
     private String measure;
 
     @NonNull
-    private String ingredient;
+    private String ingredients;
 
-    public Ingredient(int recipeId, int quantity, @NonNull String measure, @NonNull String ingredient) {
+    public Ingredient(int recipeId, int quantity, @NonNull String measure, @NonNull String ingredients) {
         this.recipeId = recipeId;
         this.quantity = quantity;
         this.measure = measure;
-        this.ingredient = ingredient;
+        this.ingredients = ingredients;
     }
 
     public int getRecipe() {
@@ -45,8 +43,8 @@ public class Ingredient {
         this.measure = measure;
     }
 
-    public void setIngredient(@NonNull String ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredients(@NonNull String ingredients) {
+        this.ingredients = ingredients;
     }
 
     public int getQuantity() {
@@ -59,16 +57,8 @@ public class Ingredient {
     }
 
     @NonNull
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public String getIngredients() {
+        return ingredients;
     }
 
     public int getRecipeId() {
