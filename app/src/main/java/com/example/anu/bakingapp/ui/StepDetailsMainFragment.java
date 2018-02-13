@@ -1,10 +1,12 @@
 package com.example.anu.bakingapp.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,5 +96,12 @@ public class StepDetailsMainFragment extends Fragment {
 
     public static void setParameters(int position){
         currentStepPos = position;
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.d("CheckConfigurationn","onConfigurationChanged");
+        super.onConfigurationChanged(newConfig);
     }
 }

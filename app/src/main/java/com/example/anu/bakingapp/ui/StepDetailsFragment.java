@@ -1,5 +1,6 @@
 package com.example.anu.bakingapp.ui;
 
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,16 +92,23 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        if (null != savedInstanceState){
+            currentPlayerPos = savedInstanceState.getLong("position");
+        }
+        else {
+            currentPlayerPos = 0;
+        }
         populateDetails(step);
 
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (null != savedInstanceState)
-            currentPlayerPos = savedInstanceState.getLong("position");
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("CheckPlayerStatee"," currentPlayerPos : " + currentPlayerPos);
+        outState.putLong("position", currentPlayerPos);
     }
 
     /**
@@ -297,10 +306,11 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
         }
     }
 
+
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong("position", currentPlayerPos);
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d("CheckConfigurationn","onConfigurationChanged");
     }
 
 }
