@@ -7,7 +7,6 @@ import android.content.Context;
 
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
-import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.data.StepThumbnail;
 import com.example.anu.bakingapp.data.Thumbnail;
 
@@ -28,7 +27,7 @@ public abstract class BakingDatabase extends RoomDatabase {
         if (null == newInstance){
             synchronized (LOCK){
                 newInstance = Room.databaseBuilder(context, BakingDatabase.class, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
+//                .fallbackToDestructiveMigration()
                 .build();
             }
         }

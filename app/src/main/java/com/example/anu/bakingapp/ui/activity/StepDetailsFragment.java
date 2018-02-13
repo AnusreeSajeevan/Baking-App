@@ -37,7 +37,7 @@ public class StepDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_step_details, container, false);
         unbinder = ButterKnife.bind(this, view);
-        txtDescription.setText("description...");
+
         return view;
     }
 

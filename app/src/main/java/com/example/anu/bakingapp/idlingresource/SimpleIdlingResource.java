@@ -3,7 +3,6 @@ package com.example.anu.bakingapp.idlingresource;
 
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.idling.CountingIdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

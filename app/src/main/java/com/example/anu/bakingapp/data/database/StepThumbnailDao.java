@@ -7,7 +7,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.example.anu.bakingapp.data.StepThumbnail;
-import com.example.anu.bakingapp.data.Thumbnail;
 
 import java.util.List;
 

@@ -1,8 +1,6 @@
 package com.example.anu.bakingapp.data;
 
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 

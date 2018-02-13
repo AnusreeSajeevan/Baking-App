@@ -3,27 +3,15 @@ package com.example.anu.bakingapp.data.network;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.example.anu.bakingapp.AppExecutors;
 import com.example.anu.bakingapp.data.Recipe;
-import com.example.anu.bakingapp.data.Thumbnail;
-import com.example.anu.bakingapp.data.database.RecipeDao;
 import com.example.anu.bakingapp.utils.BakingJsonUtils;
 import com.example.anu.bakingapp.volley.AppController;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * provides an api for doing all the networking operations

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Ingredient;
@@ -56,15 +55,10 @@ public class RecipeService extends IntentService {
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void handleActionUpdateRecipeWidgets() {
-        Log.d("CheckingWidgets","handleActionUpdateRecipeWidgets");
         CurrentRecipeUtil currentRecipeUtil = new CurrentRecipeUtil(this);
         int recipe_id = currentRecipeUtil.getKeyRecipeId();
         List<Ingredient> ingredientList = new ArrayList<>();
-        if (recipe_id == -1){
-            Log.d("CheckingWidgets","if");
-        }
-        else {
-            Log.d("CheckingWidgets","else");
+        if (recipe_id != -1){
             Uri RECIPE_URI = CONTENT_URI.buildUpon().appendPath(String.valueOf(recipe_id)).build();
             Cursor cursor = getContentResolver().query(
                     RECIPE_URI,
@@ -73,25 +67,17 @@ public class RecipeService extends IntentService {
                     null,
                     null
             );
-            Log.d("CheckingWidgets","cursor length : " + cursor.getCount());
             // Extract the recipe details
             int imgRes = R.drawable.ic_restaurant_icon;
             // Default image in case no recipes added
             long recipeId = INVALID_RECIPE_ID;
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                Log.d("CheckingWidgets","cursor length greater");
                 while (cursor.moveToNext()){
-                    Log.d("CheckingWidgets","cursor length greater");
                     int recipeIdIndex = cursor.getColumnIndex(IngredientContentProvider.COLUMN_RECIPE_ID);
                     int quantityIndex = cursor.getColumnIndex(COLUMN_QUANTITY);
                     int measureIndex = cursor.getColumnIndex(COLUMN_MEASURE);
                     int ingredientIndex = cursor.getColumnIndex(COLUMN_INGREDIENT);
-
-                    Log.d("recipeIdIndex","recipeIdIndex : " + recipeIdIndex);
-                    Log.d("recipeIdIndex","quantityIndex : " + quantityIndex);
-                    Log.d("recipeIdIndex","measureIndex : " + measureIndex);
-                    Log.d("recipeIdIndex","ingredientIndex : " + ingredientIndex);
                     recipeId = cursor.getInt(recipeIdIndex);
                     int quantity = cursor.getInt(quantityIndex);
                     String measure = cursor.getString(measureIndex);
@@ -102,12 +88,13 @@ public class RecipeService extends IntentService {
             if (cursor != null)
                 cursor.close();
         }
+        else {
+        }
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
         //Trigger data update to handle the GridView widgets and force a data refresh
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_widget);
-        Log.d("ingredientsListCheck","count : " + ingredientList.size());
         //Now update all widgets
         RecipeWidgetProvider.updateRecipeWidgets(this, ingredientList, appWidgetManager, appWidgetIds);
     }

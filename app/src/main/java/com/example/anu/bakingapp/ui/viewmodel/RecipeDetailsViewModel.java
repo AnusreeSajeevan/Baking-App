@@ -3,7 +3,6 @@ package com.example.anu.bakingapp.ui.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.Ingredient;
@@ -59,9 +58,6 @@ public class RecipeDetailsViewModel extends ViewModel {
     }
 
     public void setStepThumbnails(Context context, int recipeId, List<Step> stepList) throws Throwable {
-        Log.d("AnuCheckStepss","setStepThumbnails");
-        Log.d("AnuCheckStepss","recipeId : " + recipeId);
-        Log.d("AnuCheckStepss","stepList sizeee : " + stepList.size());
         bakingRepository.getStepThumbnails(context, recipeId, stepList);
     }
 

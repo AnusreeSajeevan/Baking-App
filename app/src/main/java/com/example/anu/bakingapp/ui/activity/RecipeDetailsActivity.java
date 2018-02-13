@@ -114,22 +114,6 @@ public class RecipeDetailsActivity extends AppCompatActivity{
                         .replace(R.id.container_step_details, fragment)
                         .commit();
             }
-            else {
-
-
-              /*  Log.d("replaceFragment","else");
-                Bundle bdl = f.getArguments();
-                bdl.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);*/
-            }
-          /*  List<Step> stepsList = BakingJsonUtils.parseSteps(recipe.getSteps().toString());
-            bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
-            bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
-            bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);
-            fragment.setArguments(bundle);
-            fragmentManager.beginTransaction()
-                    .addToBackStack(fragment.getClass().getName())
-                    .replace(R.id.container_step_details, fragment)
-                    .commit();*/
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -77,7 +77,7 @@ public class StepDetailsMainFragment extends Fragment {
         return view;
     }
 
-    /**
+    /*
      * method to get clicked step details
      * @param steps
      * @return

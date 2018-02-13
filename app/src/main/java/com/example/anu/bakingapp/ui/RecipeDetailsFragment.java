@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import com.example.anu.bakingapp.utils.InjectorUtils;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -91,7 +89,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
 
         try {
             viewModel.getStepThumbnailList(recipe.getId()).observe(getActivity(), newStepsThumbnailList->{
-                Log.d("CheckPathsStepss","newStepsThumbnailList : " + newStepsThumbnailList);
                 if (newStepsThumbnailList.size() != 0)
                     msStepsAdapter.updateThumbnail(newStepsThumbnailList);
             });
@@ -99,12 +96,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
             throwable.printStackTrace();
         }
 
-
-
-        try {
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
         setUpIngredientsRecyclerView();
         setUpStepsRecyclerView();
 
@@ -119,8 +110,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         try {
             stepList = BakingJsonUtils.parseSteps(recipeId, recipe.getSteps());
             msStepsAdapter.setStepsList(stepList);
-            Log.d("AnuCheckStepss","recipe.getId() : " + recipe.getId());
-            Log.d("AnuCheckStepss","stepList size : " + stepList.size());
             viewModel.setStepThumbnails(getActivity(), recipe.getId(), stepList);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -150,27 +139,6 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         super.onDestroyView();
         unbinder.unbind();
     }
-
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ViewModelProviders.of(getActivity()).get(RecipeDetailsViewModel.class).getDataIngredients().observe(this, new Observer<List<Ingredient>>() {
-            @Override
-            public void onChanged(@Nullable List<Ingredient> ingredients) {
-                Log.d("checkingredientss","onChanged");
-                ingredientList = ingredients;
-                mIngredientsAdapter.setIngredientList(ingredientList);
-            }
-        });
-
-        ViewModelProviders.of(getActivity()).get(RecipeDetailsViewModel.class).getDataSteps().observe(this, new Observer<List<Step>>() {
-            @Override
-            public void onChanged(@Nullable List<Step> steps) {
-                stepList = steps;
-                msStepsAdapter.setStepsList(stepList);
-            }
-        });
-    }*/
 
     @Override
     public void onStepClick(int position) {

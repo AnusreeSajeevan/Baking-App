@@ -71,7 +71,7 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
     }
 
 
-    /**
+    /*
      * store the instance variables based on the arguments passed
      * @param savedInstanceState
      */
@@ -126,9 +126,8 @@ public class StepDetailsFragment extends Fragment  implements ExoPlayer.EventLis
         }
     }
 
-    /**
+    /*
      * method to populate step details
-     *
      * @param step
      */
     private void populateDetails(Step step) {

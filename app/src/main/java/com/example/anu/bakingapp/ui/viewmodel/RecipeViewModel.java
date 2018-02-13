@@ -3,12 +3,10 @@ package com.example.anu.bakingapp.ui.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.util.Log;
 
 import com.example.anu.bakingapp.data.BakingRepository;
 import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.data.Thumbnail;
-import com.example.anu.bakingapp.service.ListWidgetService;
 
 import java.util.List;
 
@@ -38,7 +36,6 @@ public class RecipeViewModel extends ViewModel {
 
 
     public void getThumbnailUrls(Context context, List<Recipe> recipes) throws Throwable {
-        Log.d("CheckforThumnails","getThumbnailUrls");
         bakingRepository.updateThumbnailUrls(context, recipes);
     }
 }

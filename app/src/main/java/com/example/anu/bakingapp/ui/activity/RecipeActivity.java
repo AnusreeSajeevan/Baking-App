@@ -4,7 +4,6 @@ import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -21,9 +20,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,12 +31,9 @@ import com.example.anu.bakingapp.idlingresource.SimpleIdlingResource;
 import com.example.anu.bakingapp.ui.adapter.RecipeAdapter;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModelFactory;
-import com.example.anu.bakingapp.utils.BakingJsonUtils;
 import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 import com.example.anu.bakingapp.utils.InjectorUtils;
 import com.example.anu.bakingapp.utils.NetworkUtils;
-
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -82,7 +75,6 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
 
         //check for storage permission
         boolean haveStoragePermission = isStoragePermissionGranted();
-        Log.d("haveStoragePermission", "haveStoragePermission : " + haveStoragePermission);
         if (haveStoragePermission){
             currentRecipeUtil.setPermissionGranted(true);
         }
@@ -124,30 +116,15 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
         });
     }
 
-    private void updateThumbnail(List<Recipe> newRecipes) {
-    }
-
-    /**
+    /*
      * method to check and ask for storage permission
      * @return
      */
     public  boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.d("haveStoragePermission","Permission is granted");
-                return true;
-            } else {
-                Log.d("haveStoragePermission","Permission is revoked");
-//                showPermissionDialog();
-                //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.d("haveStoragePermission","Permission is granted");
-            return true;
-        }
+        //                showPermissionDialog();
+//ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        return Build.VERSION.SDK_INT < 23 || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+//permission is automatically granted on sdk<23 upon installation
     }
 
     /**
@@ -159,18 +136,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
         alertDialog.setView(dialogView);
         alertDialog.setTitle("Grant Storage Permission");
         alertDialog.setMessage("Grant storage permission so that images will load faster next time");
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                ActivityCompat.requestPermissions(RecipeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
+        alertDialog.setPositiveButton("OK", (dialogInterface, i) -> ActivityCompat.requestPermissions(RecipeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1));
+        alertDialog.setNegativeButton("CANCEL", (dialogInterface, i) -> dialogInterface.cancel());
         alertDialog.show();
     }
 
@@ -254,12 +221,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d("haveStoragePermission","onRequestPermissionsResult");
         if (grantResults[0] ==PackageManager.PERMISSION_GRANTED) {
-            Log.d("haveStoragePermission","if");
             currentRecipeUtil.setPermissionGranted(true);
         }
-        Log.d("haveStoragePermission","after");
     }
 
     /**

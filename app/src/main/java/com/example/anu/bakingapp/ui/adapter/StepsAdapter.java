@@ -2,7 +2,6 @@ package com.example.anu.bakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +55,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
             return 0;
     }
 
-    /**
+    /*
      * method to set steps list
-     *
      * @param stepsList
      */
     public void setStepsList(List<Step> stepsList) {
@@ -69,15 +67,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
     /**
      * method to update step thumbnail
      *
-     * @param stepThumbnails
+     * @param stepThumbnails thumbnails of steps
      */
     public void updateThumbnail(List<StepThumbnail> stepThumbnails) {
-        Log.d("checkkkkThumbnails","mStepsList size : " + mStepsList.size());
-        Log.d("checkkkkThumbnails","stepThumbnails size : " + stepThumbnails.size());
         for (int i=0; i<stepThumbnails.size(); i++){
-            Log.d("CheckStepThumbnailss","i : "+ i);
            StepThumbnail stepThumbnail = stepThumbnails.get(i);
-            Log.d("CheckStepThumbnailss","stepThumbnail.getStepId() : "+ stepThumbnail.getStepId());
             if (stepThumbnail.getStepId()<mStepsList.size()) {
                 if (mStepsList.get(stepThumbnail.getStepId()) != null) {
                     mStepsList.get(stepThumbnail.getStepId()).setThumbnailPath(stepThumbnail.getThumbnailPath());

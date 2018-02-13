@@ -1,9 +1,7 @@
 package com.example.anu.bakingapp.data;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
