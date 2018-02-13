@@ -38,7 +38,7 @@ public class CurrentRecipeUtil {
     }
 
     public static boolean getKeyIsStoragePermissionGranted() {
-        return preferences.getBoolean(KEY_RECIPE_ID, false);
+        return preferences.getBoolean(KEY_HAVE_STORAGE_PERMISSION, false);
     }
 
     public void setPermissionGranted(boolean havePermission) {

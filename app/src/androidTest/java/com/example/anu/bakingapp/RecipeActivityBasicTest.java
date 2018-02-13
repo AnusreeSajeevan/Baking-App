@@ -6,7 +6,9 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.anu.bakingapp.ui.activity.RecipeActivity;
+import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,10 +29,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.mockito.Mockito.mock;
 
 //annotation to specify AndroidJUnitRunner as the default test runner
 @RunWith(AndroidJUnit4.class)
 public class RecipeActivityBasicTest {
+
+    private RecipeViewModel recipeViewModel;
+
+    @Before
+    public void init(){
+        recipeViewModel = mock()
+    }
 
     //rule that provides functional testing of an activity
     @Rule public ActivityTestRule<RecipeActivity> mActivityTestRule =

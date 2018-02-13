@@ -12,6 +12,8 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Recipe;
+import com.example.anu.bakingapp.idlingresource.SimpleIdlingResource;
 import com.example.anu.bakingapp.ui.adapter.RecipeAdapter;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModelFactory;
@@ -64,6 +67,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     public static final String KEY_RECIPE_ID = "recipe_id";
     public static final String KEY_RECIPE = "recipe";
     private CurrentRecipeUtil currentRecipeUtil;
+
+    //@Nullable means it will be null on production
+    @Nullable
+    private SimpleIdlingResource mSimpleIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,25 +252,28 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_grant_permission:
-                isStoragePermissionGranted();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_permission, menu);
-        return true;
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] ==PackageManager.PERMISSION_GRANTED)
+        Log.d("haveStoragePermission","onRequestPermissionsResult");
+        if (grantResults[0] ==PackageManager.PERMISSION_GRANTED) {
+            Log.d("haveStoragePermission","if");
             currentRecipeUtil.setPermissionGranted(true);
+        }
+        Log.d("haveStoragePermission","after");
+    }
+
+    /**
+     * method which creates and returns {@literal mSimpleIdlingResource}
+     * instantiate a new instance of SimpleIdlingResource if the IdlingResource is null
+     * it will be called from testing only
+     * @return {@literal mSimpleIdlingResource}
+     */
+    @VisibleForTesting
+    @NonNull
+    public SimpleIdlingResource getmSimpleIdlingResource(){
+        if (null == mSimpleIdlingResource){
+            mSimpleIdlingResource = new SimpleIdlingResource();
+        }
+        return mSimpleIdlingResource;
     }
 }

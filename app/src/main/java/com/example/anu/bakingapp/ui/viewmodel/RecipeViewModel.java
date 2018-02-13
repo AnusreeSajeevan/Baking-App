@@ -38,7 +38,7 @@ public class RecipeViewModel extends ViewModel {
 
 
     public void getThumbnailUrls(Context context, List<Recipe> recipes) throws Throwable {
-        Log.d("ThumbnailCountCheck","RecipeViewModel");
+        Log.d("CheckforThumnails","getThumbnailUrls");
         bakingRepository.updateThumbnailUrls(context, recipes);
     }
 }

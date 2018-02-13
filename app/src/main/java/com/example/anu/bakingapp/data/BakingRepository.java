@@ -260,23 +260,28 @@ public class BakingRepository {
         this.context = context;
             appExecutors.networkIO().execute(()->{
                 List<Thumbnail> thumbnails = new ArrayList<>();
+                Log.d("CheckforThumnails","recipe count : " + recipes.size());
                 for (Recipe recipe : recipes) {
                     int recipeId = recipe.getId();//get thumbnail url from recipe table, it is used to determine recipe thumbnail has been loaded already
                     String thumbnailUrlInRecipeTable = recipeDao.getRecipeThumbnail(recipeId);
 
+                    Log.d("CheckforThumnails","thumbnailUrlInRecipeTable : " + thumbnailUrlInRecipeTable);
                     if (thumbnailUrlInRecipeTable.equals("") || thumbnailUrlInRecipeTable == null){
 
                         //get number of rows in the thumbnail table with correcponding recipe id
                         Thumbnail thumbnail = thumbnailDao.getThumbnailCountWithId(recipeId);
 
                         if (thumbnail != null){
+                            Log.d("CheckforThumnails","if");
                             /**
                              * current recipe thumbnail url is already stored in thumbnail table
                              * get path from it and save to recipe table for the corresponding recipe
                              */
                             int numUpdatedColumns = recipeDao.updateRecipeThumbnail(recipeId, thumbnail.getPath());
+                            Log.d("CheckforThumnails","numUpdatedColumns : " + numUpdatedColumns);
                         }
                         else {
+                            Log.d("CheckforThumnails","else");
                             /**
                              * thumbnail does not already exist in thumbnail table
                              * create thumbnail
@@ -293,7 +298,11 @@ public class BakingRepository {
                     }
                 }
 
-                if (CurrentRecipeUtil.getKeyIsStoragePermissionGranted()) {
+                Log.d("CheckForPermission","before");
+                Log.d("CheckForPermission","CurrentRecipeUtil.getKeyIsStoragePermissionGranted() : " + CurrentRecipeUtil.getKeyIsStoragePermissionGranted());
+                CurrentRecipeUtil recipeUtil = new CurrentRecipeUtil(context);
+                if (recipeUtil.getKeyIsStoragePermissionGranted()) {
+                    Log.d("CheckForPermission","permission grated");
                     //create thumbnail paths
                     if (thumbnails.size() != 0 || !thumbnails.isEmpty()) {
                         new GetVideoThumbnailTask().execute(thumbnails.toArray(new Thumbnail[thumbnails.size()]));
@@ -305,6 +314,7 @@ public class BakingRepository {
      private class GetVideoThumbnailTask extends AsyncTask<Thumbnail, Thumbnail, Thumbnail[]> {
         @Override
         protected Thumbnail[] doInBackground(Thumbnail... thumbnails) {
+            Log.d("CheckforThumnails","doInBackground");
             Thumbnail[] thumbnailResult = new Thumbnail[thumbnails.length];
             for (int i = 0; i < thumbnails.length; i++) {
                 Bitmap bitmap = null;
@@ -342,6 +352,7 @@ public class BakingRepository {
             appExecutors.diskIO().execute(()->{
                 thumbnailDao.insertThumbnails(result);
                 for (int i=0;i<result.length;i++){
+                    Log.d("CheckforThumnails","i : " + i);
                     recipeDao.updateRecipeThumbnail(result[i].getRecipeId(), result[i].getPath());
                 }
             });
