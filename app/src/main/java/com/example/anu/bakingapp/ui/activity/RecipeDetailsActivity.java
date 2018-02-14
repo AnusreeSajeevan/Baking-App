@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -13,8 +14,8 @@ import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Recipe;
-import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
 import com.example.anu.bakingapp.ui.RecipeDetailsFragment;
+import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModel;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeDetailsViewModelFactory;
 import com.example.anu.bakingapp.data.Step;
@@ -99,21 +100,23 @@ public class RecipeDetailsActivity extends AppCompatActivity{
 
     }
 
-    public static void setStepFragment(int position) {
+    public void setStepFragment(int position) {
         Fragment fragment = new StepDetailsMainFragment();
         Bundle bundle = new Bundle();
         try {
-         Fragment f = fragmentManager.findFragmentById(R.id.container_step_details);
-            if(f == null) {
-                List<Step> stepsList = BakingJsonUtils.parseSteps(recipeId, recipe.getSteps());
-                bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
-                bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
-                bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);
-                fragment.setArguments(bundle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container_step_details, fragment)
-                        .commit();
+            List<Step> stepsList = BakingJsonUtils.parseSteps(recipeId, recipe.getSteps());
+            Fragment f = fragmentManager.findFragmentById(R.id.container_step_details);
+            if(f != null) {
+                fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.container_step_details)).commit();
             }
+            bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
+            bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
+            bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);
+            fragment.setArguments(bundle);
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.container_step_details, fragment)
+                    .commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }

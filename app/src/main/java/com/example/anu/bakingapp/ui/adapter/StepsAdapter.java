@@ -55,8 +55,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
             return 0;
     }
 
-    /*
+    /**
      * method to set steps list
+     *
      * @param stepsList
      */
     public void setStepsList(List<Step> stepsList) {
@@ -67,7 +68,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
     /**
      * method to update step thumbnail
      *
-     * @param stepThumbnails thumbnails of steps
+     * @param stepThumbnails
      */
     public void updateThumbnail(List<StepThumbnail> stepThumbnails) {
         for (int i=0; i<stepThumbnails.size(); i++){

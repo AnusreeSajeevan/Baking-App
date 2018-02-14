@@ -143,7 +143,8 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
     @Override
     public void onStepClick(int position) {
         if (RecipeDetailsActivity.isTwoPaneUi){
-            RecipeDetailsActivity.setStepFragment(position);
+            RecipeDetailsActivity recipeDetailsActivity = new RecipeDetailsActivity();
+            recipeDetailsActivity.setStepFragment(position);
         }else {
             Intent i = new Intent(getActivity(), StepDetailsActivity.class);
             i.putParcelableArrayListExtra(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
