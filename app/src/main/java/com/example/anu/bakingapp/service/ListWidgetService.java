@@ -39,7 +39,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     }
 
     /**
-     * called on start and when notifiAppWidgetViewDataChanged called
+     * called on start and when notifyAppWidgetViewDataChanged called
      */
     @Override
     public void onDataSetChanged() {
@@ -78,7 +78,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
      * This method acts like the onBindViewHolder method in an Adapter
      *
      * @param position The current position of the item in the ListView to be displayed
-     * @return The RemoteViews object to display for the provided postion
+     * @return The RemoteViews object to display for the provided position
      */
     @Override
     public RemoteViews getViewAt(int position) {

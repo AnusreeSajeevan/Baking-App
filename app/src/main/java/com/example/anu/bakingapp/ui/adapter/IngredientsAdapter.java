@@ -43,7 +43,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsHolder> 
 
     /**
      * method to set ingredients list
-     * @param ingredientList list off ingrdients to be set
+     * @param ingredientList list off ingredients to be set
      */
     public void setIngredientList(List<Ingredient> ingredientList){
         this.mIngredientList = ingredientList;

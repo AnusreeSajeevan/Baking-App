@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -31,12 +30,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_CLICKED_POS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_IS_TABLET;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_STEPS;
+import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE;
+import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE_ID;
+
 public class RecipeDetailsActivity extends AppCompatActivity{
 
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
-    public static final String EXTRA_STEPS = "com.example.anu.bakingapp.extra.STEPS";
-    public static final String EXTRA_CLICKED_POS = "com.example.anu.bakingapp.extdra.CLICKED_POS";
-    private static final String EXTRA_IS_TABLET = "com.example.anu.bakingapp.extdra.IS_TABLET";
     private static int recipeId;
     private static Recipe recipe;
     private static FragmentManager fragmentManager;
@@ -60,7 +62,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getSupportFragmentManager();
 
-        recipeId = getIntent().getIntExtra(RecipeActivity.KEY_RECIPE_ID, -1);
+        recipeId = getIntent().getIntExtra(KEY_RECIPE_ID, -1);
 
         factory = InjectorUtils.provideRecipeDetailsActivityViewModelFactory(getApplicationContext());
         viewModel = ViewModelProviders.of(this, factory).get(RecipeDetailsViewModel.class);
@@ -72,7 +74,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
 
             Fragment fragment = new RecipeDetailsFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(RecipeActivity.KEY_RECIPE, recipe);
+            bundle.putParcelable(KEY_RECIPE, recipe);
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -110,8 +112,8 @@ public class RecipeDetailsActivity extends AppCompatActivity{
                 fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.container_step_details)).commit();
             }
             bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepsList);
-            bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, position);
-            bundle.putBoolean(RecipeDetailsActivity.EXTRA_IS_TABLET, true);
+            bundle.putInt(EXTRA_CLICKED_POS, position);
+            bundle.putBoolean(EXTRA_IS_TABLET, true);
             fragment.setArguments(bundle);
 
             fragmentManager.beginTransaction()

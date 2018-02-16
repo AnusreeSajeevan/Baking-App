@@ -190,12 +190,12 @@ public class BakingRepository {
         appExecutors.networkIO().execute(()->{
             for (int i=0;i<stepList.size();i++){
                 Step step = stepList.get(i);
-                boolean isStepThumnailExists = isStepThumbnailExists(recipeId, step.getId());
+                boolean isStepThumbnailExists = isStepThumbnailExists(recipeId, step.getId());
                 /*
-                 * if isStepThumnailExists = false, just add stepthubnail to list {@link steps}
+                 * if isStepThumbnailExists = false, just add stepthumbnail to list {@link steps}
                  */
 
-                if (!isStepThumnailExists){
+                if (!isStepThumbnailExists){
                     steps.add(step);
                     createThumbnail(recipeId, step);
 
@@ -227,7 +227,7 @@ public class BakingRepository {
                 }
             }
 
-            String path = "";
+            String path;
             if (bitmap != null) {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
@@ -244,12 +244,12 @@ public class BakingRepository {
 
 
     /**
-     * method to determine if step thumnail exists
-     * @return true if exists, false othetwise
+     * method to determine if step thumbnail exists
+     * @return true if exists, false otherwise
      */
     private boolean isStepThumbnailExists(int recipeId, int stepId) {
-        int stepThumnailCount = stepThumbnailDao.getThumbnailCountWithId(recipeId, stepId);
-        return stepThumnailCount > 0;
+        int stepThumbnailCount = stepThumbnailDao.getThumbnailCountWithId(recipeId, stepId);
+        return stepThumbnailCount > 0;
     }
 
     public void updateThumbnailUrls(Context context, List<Recipe> recipes) throws Throwable {
@@ -263,7 +263,7 @@ public class BakingRepository {
 
                     if (thumbnailUrlInRecipeTable.equals("") || thumbnailUrlInRecipeTable == null){
 
-                        //get number of rows in the thumbnail table with correcponding recipe id
+                        //get number of rows in the thumbnail table with corresponding recipe id
                         Thumbnail thumbnail = thumbnailDao.getThumbnailCountWithId(recipeId);
 
                         if (thumbnail != null){
@@ -281,7 +281,7 @@ public class BakingRepository {
                             try {
                                 String thumbnailUrl = BakingJsonUtils.getThumbnailUrl(new JSONArray(recipe.getSteps()));
                                 assert thumbnail != null;
-                                if (!thumbnailUrl.isEmpty() || !thumbnail.equals("")){//**//* && !mView.isRunningTest()*//**//*) {
+                                if (!thumbnailUrl.isEmpty() || !thumbnail.equals("")){
                                         thumbnails.add(new Thumbnail(recipe.getId(), thumbnailUrl));
                                 }
                             } catch (Throwable throwable) {

@@ -11,7 +11,7 @@ public class SimpleIdlingResource implements IdlingResource {
 
     @Nullable private volatile ResourceCallback mResourceCallback;
 
-    //ideleness id controlled by this boolean variable
+    //idleness id controlled by this boolean variable
     private AtomicBoolean mIsIdleNow = new AtomicBoolean(true);
 
     @Override

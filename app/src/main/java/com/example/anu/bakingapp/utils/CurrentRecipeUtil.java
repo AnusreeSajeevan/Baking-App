@@ -37,7 +37,7 @@ public class CurrentRecipeUtil {
         editor.commit();
     }
 
-    public static boolean getKeyIsStoragePermissionGranted() {
+    public boolean getKeyIsStoragePermissionGranted() {
         return preferences.getBoolean(KEY_HAVE_STORAGE_PERMISSION, false);
     }
 

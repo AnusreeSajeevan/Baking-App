@@ -70,7 +70,6 @@ public class RecipeService extends IntentService {
             // Extract the recipe details
             int imgRes = R.drawable.ic_restaurant_icon;
             // Default image in case no recipes added
-            long recipeId = INVALID_RECIPE_ID;
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (cursor.moveToNext()){
@@ -78,7 +77,6 @@ public class RecipeService extends IntentService {
                     int quantityIndex = cursor.getColumnIndex(COLUMN_QUANTITY);
                     int measureIndex = cursor.getColumnIndex(COLUMN_MEASURE);
                     int ingredientIndex = cursor.getColumnIndex(COLUMN_INGREDIENT);
-                    recipeId = cursor.getInt(recipeIdIndex);
                     int quantity = cursor.getInt(quantityIndex);
                     String measure = cursor.getString(measureIndex);
                     String ingredient = cursor.getString(ingredientIndex);

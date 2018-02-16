@@ -17,7 +17,6 @@ import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Ingredient;
 import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.data.Step;
-import com.example.anu.bakingapp.ui.activity.RecipeActivity;
 import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
 import com.example.anu.bakingapp.ui.activity.StepDetailsActivity;
 import com.example.anu.bakingapp.ui.adapter.IngredientsAdapter;
@@ -35,9 +34,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity.EXTRA_CLICKED_POS;
-import static com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity.EXTRA_STEPS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_CLICKED_POS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_RECIPE_NAME;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_STEPS;
+import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE;
 
 /**
  * master list fragment
@@ -69,7 +69,7 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (null != getArguments()){
-            recipe = getArguments().getParcelable(RecipeActivity.KEY_RECIPE);
+            recipe = getArguments().getParcelable(KEY_RECIPE);
 
         }
     }
@@ -149,6 +149,7 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
             Intent i = new Intent(getActivity(), StepDetailsActivity.class);
             i.putParcelableArrayListExtra(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
             i.putExtra(EXTRA_CLICKED_POS, position);
+            i.putExtra(EXTRA_RECIPE_NAME, recipe.getName());
             startActivity(i);
         }
     }

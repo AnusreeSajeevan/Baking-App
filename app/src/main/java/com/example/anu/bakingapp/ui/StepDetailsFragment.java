@@ -7,10 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +42,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class StepDetailsFragment extends Fragment implements ExoPlayer.EventListener {
+import static com.example.anu.bakingapp.utils.Constants.KEY_PAGE;
+import static com.example.anu.bakingapp.utils.Constants.KEY_STEP;
 
-    public static final String KEY_PAGE = "page";
-    public static final String KEY_STEP = "step";
+public class StepDetailsFragment extends Fragment implements ExoPlayer.EventListener {
     private static final String TAG = StepDetailsFragment.class.getSimpleName();
     private static MediaSessionCompat mediaSession;
     @BindView(R.id.main_media_frame)
@@ -71,7 +69,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     }
 
     public static StepDetailsFragment newInstance(int page, Step step) {
-        Log.d("StepssChecking", "newInstance");
         StepDetailsFragment stepDetailsMainFragment = new StepDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_PAGE, page);
@@ -89,7 +86,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("StepssCheckingg", "onCreate");
         if (null != getArguments()) {
             page = getArguments().getInt(KEY_PAGE);
             step = getArguments().getParcelable(KEY_STEP);
@@ -100,7 +96,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("StepssCheckingg", "onCreateView");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -120,7 +115,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
 
         ((ViewGroup) exoPlayerView.getParent()).removeView(exoPlayerView);
         mFullScreenDialog.addContentView(exoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_fullscreen_skrink));
         mExoPlayerFullscreen = true;
         mFullScreenDialog.show();
     }
@@ -142,13 +136,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         mainMediaFrame.addView(exoPlayerView);
         mExoPlayerFullscreen = false;
         mFullScreenDialog.dismiss();
-//        mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_fullscreen_expand));
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("StepssCheckingg", "onActivityCreated");
         if (null != savedInstanceState)
             currentPlayerPos = savedInstanceState.getLong("position");
     }
@@ -159,7 +151,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * @param mediaUri uri of the music sample to play
      */
     private void initializePlayer(Uri mediaUri) {
-        Log.d("StepssChecking", "initializePlayer");
         if (null == exoPlayer && mediaUri != null) {
 
             //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
@@ -185,7 +176,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * @param step
      */
     private void populateDetails(Step step) {
-        Log.d("StepssChecking", "populateDetails");
         txtDescription.setText(step.getDescription());
         if (step.getVideoURL() == null || step.getVideoURL().equals(""))
             exoPlayerView.setVisibility(View.GONE);
@@ -208,7 +198,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
 //            else
 //              closeFullscreenDialog();
             }
-            
+
             try {
                 initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
             } catch (MalformedURLException e) {
@@ -225,7 +215,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * and media controller.
      */
     private void initializeMediaSession() {
-        Log.d("StepssChecking", "initializeMediaSession");
 
         //create the media session object
         mediaSession = new MediaSessionCompat(getActivity(), TAG);
@@ -260,7 +249,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("StepssChecking", "onDestroyView");
         unbinder.unbind();
     }
 
@@ -289,7 +277,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      */
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        Log.d("StepssChecking", "onPlayerStateChanged");
         if ((playbackState == ExoPlayer.STATE_READY) && playWhenReady) {
             statBuilder.setState(PlaybackStateCompat.STATE_PLAYING, exoPlayer.getCurrentPosition(), 1f);
         } else {
@@ -315,13 +302,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
 
         @Override
         public void onPlay() {
-            Log.d("StepssChecking", "onPlay");
             exoPlayer.setPlayWhenReady(true);
         }
 
         @Override
         public void onPause() {
-            Log.d("StepssChecking", "onPause");
             exoPlayer.setPlayWhenReady(false);
         }
 
@@ -334,14 +319,12 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("StepssChecking", "onDestroy");
         releasePlayer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("StepssChecking", "onPause");
         currentPlayerPos = exoPlayer.getCurrentPosition();
         releasePlayer();
     }
@@ -350,7 +333,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * stop and release the player when the Activity is destroyed.
      */
     private void releasePlayer() {
-        Log.d("StepssChecking", "releasePlayer");
         if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
@@ -363,7 +345,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("StepssChecking", "onResume");
         initializeMediaSession();
         try {
             initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
@@ -375,13 +356,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("StepssChecking", "onSaveInstanceState");
         outState.putLong("position", currentPlayerPos);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Log.d("StepssChecking", "onConfigurationChanged");
     }
 }

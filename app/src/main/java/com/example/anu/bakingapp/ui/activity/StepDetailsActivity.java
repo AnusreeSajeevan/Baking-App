@@ -14,13 +14,16 @@ import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity.EXTRA_STEPS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_CLICKED_POS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_RECIPE_NAME;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_STEPS;
 
 
 public class StepDetailsActivity extends AppCompatActivity {
 
     private List<Step> steps = new ArrayList<>();
     private int clickedPos;
+    private String recipeName;
     private static final String TAG = StepDetailsActivity.class.getSimpleName();
 
     @Override
@@ -28,16 +31,20 @@ public class StepDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_details);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         steps = getIntent().getParcelableArrayListExtra(EXTRA_STEPS);
-        clickedPos = getIntent().getIntExtra(RecipeDetailsActivity.EXTRA_CLICKED_POS, -1);
+        clickedPos = getIntent().getIntExtra(EXTRA_CLICKED_POS, -1);
+        recipeName = getIntent().getStringExtra(EXTRA_RECIPE_NAME);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(recipeName  + " " +
+                getResources().getString(R.string.steps));
+
 
         if (null == savedInstanceState){
             Fragment fragment = new StepDetailsMainFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) steps);
-            bundle.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, clickedPos);
+            bundle.putInt(EXTRA_CLICKED_POS, clickedPos);
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().

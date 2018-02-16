@@ -26,7 +26,7 @@ public class BakingNetworkDataSource {
     }
 
     private final MutableLiveData<Recipe[]> mDownloadedRecipes;
-    Recipe[] recipes = new Recipe[0];
+    private Recipe[] recipes = new Recipe[0];
 
     //the url where the recipe listing json is located
     private static final String URL_RECIPE_LISTING = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";

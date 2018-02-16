@@ -8,14 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
-import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.example.anu.bakingapp.ui.StepDetailsFragment.KEY_PAGE;
-import static com.example.anu.bakingapp.ui.StepDetailsFragment.KEY_STEP;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_CLICKED_POS;
+import static com.example.anu.bakingapp.utils.Constants.EXTRA_STEPS;
+import static com.example.anu.bakingapp.utils.Constants.KEY_PAGE;
+import static com.example.anu.bakingapp.utils.Constants.KEY_STEP;
 
 public class StepDetailsMainFragment extends Fragment {
 
@@ -43,11 +43,10 @@ public class StepDetailsMainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("StepssCheckingg","onCreate 1");
         if (null != getArguments()) {
-            currentStepPos = getArguments().getInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, -1);
-            stepList = getArguments().getParcelableArrayList(RecipeDetailsActivity.EXTRA_STEPS);
-            isTabletView = getArguments().getBoolean(RecipeDetailsActivity.EXTRA_STEPS);
+            currentStepPos = getArguments().getInt(EXTRA_CLICKED_POS, -1);
+            stepList = getArguments().getParcelableArrayList(EXTRA_STEPS);
+            isTabletView = getArguments().getBoolean(EXTRA_STEPS);
         }
         setRetainInstance(true);
     }
@@ -56,12 +55,10 @@ public class StepDetailsMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Log.d("StepssCheckingg","onCreateView 1");
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_step_details_main_new, container, false);
 
         unbinder = ButterKnife.bind(this, view);
         if (null != getArguments()) {
-            Log.d("StepssCheckingg","saved instance state 1");
             setupViewPager(viewpager);
             tabs.setupWithViewPager(viewpager);
             activateClickedTab(currentStepPos);
@@ -74,7 +71,6 @@ public class StepDetailsMainFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewpager) {
-        Log.d("StepssCheckingg","setupViewPager 1");
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         for (int i=0;i<stepList.size();i++){
             Bundle bundle = new Bundle();
@@ -140,8 +136,8 @@ public class StepDetailsMainFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(RecipeDetailsActivity.EXTRA_CLICKED_POS, currentStepPos);
-        outState.putParcelableArrayList(RecipeDetailsActivity.EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
+        outState.putInt(EXTRA_CLICKED_POS, currentStepPos);
+        outState.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
     }
 
 }

@@ -40,6 +40,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE_ID;
+
 public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.RecipeOnClickListener {
 
     @BindView(R.id.recycler_view_recipes)
@@ -57,8 +59,6 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
     private static final String TAG = RecipeActivity.class.getSimpleName();
     private int mPosition = RecyclerView.NO_POSITION;
     private BroadcastReceiver broadcastReceiver;
-    public static final String KEY_RECIPE_ID = "recipe_id";
-    public static final String KEY_RECIPE = "recipe";
     private CurrentRecipeUtil currentRecipeUtil;
 
     //@Nullable means it will be null on production
