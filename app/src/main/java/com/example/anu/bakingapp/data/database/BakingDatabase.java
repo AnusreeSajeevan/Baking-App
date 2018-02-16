@@ -10,7 +10,7 @@ import com.example.anu.bakingapp.data.Recipe;
 import com.example.anu.bakingapp.data.StepThumbnail;
 import com.example.anu.bakingapp.data.Thumbnail;
 
-@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class, StepThumbnail.class}, version = 11)
+@Database(entities = {Recipe.class, Ingredient.class, Thumbnail.class, StepThumbnail.class}, version = 12)
 public abstract class BakingDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();

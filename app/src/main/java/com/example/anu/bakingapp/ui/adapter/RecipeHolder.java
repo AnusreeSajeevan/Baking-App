@@ -23,6 +23,8 @@ public class RecipeHolder extends RecyclerView.ViewHolder{
     ImageView imgBack;
     @BindView(R.id.txt_num_steps)
     TextView txtNumSteps;
+    @BindView(R.id.txt_servings)
+    TextView txtServings;
 
     public RecipeHolder(View itemView) {
         super(itemView);

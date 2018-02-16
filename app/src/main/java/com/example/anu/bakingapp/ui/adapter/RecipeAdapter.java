@@ -48,6 +48,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
     public void onBindViewHolder(final RecipeHolder holder, int position) {
         Recipe recipe = mRecipeList.get(holder.getAdapterPosition());
         holder.txtRecipeName.setText(recipe.getName());
+        holder.txtServings.setText(String.valueOf(recipe.getServings()));
 
        setImageThumbnail(holder, recipe.getThumbnailPath());
 

@@ -14,13 +14,15 @@ public class Recipe implements Parcelable{
     private String ingredients;
 
     private String thumbnailPath;
+    private int servings;
 
-    public Recipe(int id, String name, String ingredients, String steps, String thumbnailPath) {
+    public Recipe(int id, String name, String ingredients, String steps, String thumbnailPath, int servings) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
         this.thumbnailPath = thumbnailPath;
         this.steps = steps;
+        this.servings = servings;
     }
 
     protected Recipe(Parcel in) {
@@ -29,6 +31,7 @@ public class Recipe implements Parcelable{
         ingredients = in.readString();
         thumbnailPath = in.readString();
         steps = in.readString();
+        servings = in.readInt();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -90,6 +93,14 @@ public class Recipe implements Parcelable{
         return 0;
     }
 
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -97,5 +108,6 @@ public class Recipe implements Parcelable{
         parcel.writeString(ingredients);
         parcel.writeString(thumbnailPath);
         parcel.writeString(steps);
+        parcel.writeInt(servings);
     }
 }
