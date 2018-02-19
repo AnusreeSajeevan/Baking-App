@@ -22,7 +22,7 @@ public class NetworkUtils {
     }
 
 
-    public static Uri buildVideoUri(String videoUrl) {
+    public static Uri buildVideoUri(String videoUrl) throws MalformedURLException {
         return Uri.parse(videoUrl).buildUpon().build();
     }
 }
