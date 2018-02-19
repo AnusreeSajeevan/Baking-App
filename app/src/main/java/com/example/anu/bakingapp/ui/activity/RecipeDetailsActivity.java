@@ -98,8 +98,7 @@ public class RecipeDetailsActivity extends AppCompatActivity{
             }
         });
 
-
-        isTwoPaneUi = null != findViewById(R.id.layout_two_pane);
+        isTwoPaneUi = getResources().getBoolean(R.bool.is_two_pane_ui);
 
 
     }
