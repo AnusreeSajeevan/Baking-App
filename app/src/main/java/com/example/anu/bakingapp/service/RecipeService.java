@@ -23,7 +23,6 @@ import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_IN
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_MEASURE;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.COLUMN_QUANTITY;
 import static com.example.anu.bakingapp.data.IngredientContentProvider.CONTENT_URI;
-import static com.example.anu.bakingapp.data.IngredientContentProvider.INVALID_RECIPE_ID;
 
 /**
  * An {@link IntentService} sub class is used to

@@ -57,11 +57,7 @@ public class RecipeDetailsViewModel extends ViewModel {
         return bakingRepository.getIsAddedToWidget();
     }
 
-    public void setStepThumbnails(Context context, int recipeId, List<Step> stepList) throws Throwable {
+    public void setStepThumbnails(Context context, int recipeId, List<Step> stepList) {
         bakingRepository.getStepThumbnails(context, recipeId, stepList);
     }
-
-   /* public LiveData<List<StepThumbnail>> getStepThumbnailsList(int recipeId) throws Throwable {
-        return bakingRepository.setStepThumbnails(recipeId);
-    }*/
 }

@@ -9,12 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
@@ -94,11 +91,7 @@ public class RecipeDetailsFragment extends Fragment implements StepsAdapter.OnSt
         if (null != savedInstanceState){
             final int[] position = savedInstanceState.getIntArray("scroll_position");
             if(position != null)
-                nestedSctollview.post(new Runnable() {
-                    public void run() {
-                        nestedSctollview.scrollTo(position[0], position[1]);
-                    }
-                });
+                nestedSctollview.post(() -> nestedSctollview.scrollTo(position[0], position[1]));
         }
     }
     @Nullable

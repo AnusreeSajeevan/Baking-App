@@ -326,14 +326,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         releasePlayer();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-       /* currentPlayerPos = exoPlayer.getCurrentPosition();
-        playWhenReady = exoPlayer.getPlayWhenReady();
-        releasePlayer();*/
-    }
-
     /**
      * stop and release the player when the Activity is destroyed.
      */
@@ -372,10 +364,5 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         outState.putLong("position", currentPlayerPos);
         //outState.putLong("buffered_position", bufferedPos);
         outState.putBoolean("play_when_ready", playWhenReady);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 }

@@ -30,10 +30,6 @@ public class RecipeActivityBasicTest {
 
     private RecipeViewModel recipeViewModel;
 
-    @Before
-    public void init(){
-    }
-
     //rule that provides functional testing of an activity
     @Rule public ActivityTestRule<RecipeActivity> mActivityTestRule =
             new ActivityTestRule<>(RecipeActivity.class);

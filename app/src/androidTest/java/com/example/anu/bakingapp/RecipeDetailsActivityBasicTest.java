@@ -3,7 +3,6 @@ package com.example.anu.bakingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -11,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
-import com.example.anu.bakingapp.utils.Constants;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,14 +18,12 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.example.anu.bakingapp.TestUtils.withRecyclerView;
-import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE;
 import static com.example.anu.bakingapp.utils.Constants.KEY_RECIPE_ID;
 import static org.hamcrest.Matchers.allOf;
 

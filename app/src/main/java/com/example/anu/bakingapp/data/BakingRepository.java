@@ -252,7 +252,7 @@ public class BakingRepository {
         return stepThumbnailCount > 0;
     }
 
-    public void updateThumbnailUrls(Context context, List<Recipe> recipes) throws Throwable {
+    public void updateThumbnailUrls(Context context, List<Recipe> recipes) {
         this.context = context;
             appExecutors.networkIO().execute(()->{
                 List<Thumbnail> thumbnails = new ArrayList<>();

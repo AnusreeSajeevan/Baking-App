@@ -112,7 +112,7 @@ public class BakingJsonUtils {
      * @return recipe list
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static Recipe[] getRecipeListFromJson(JSONArray jsonArray) throws JSONException {
+    public static Recipe[] getRecipeListFromJson(JSONArray jsonArray) {
         ArrayList<Recipe> recipeArrayList = new ArrayList<>();
         for (int i=0; i<jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.optJSONObject(i);
