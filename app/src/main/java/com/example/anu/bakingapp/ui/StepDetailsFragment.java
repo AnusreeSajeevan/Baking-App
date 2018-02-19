@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -61,8 +62,10 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     private Step step;
     private SimpleExoPlayer exoPlayer;
     private long currentPlayerPos;
+    //private long bufferedPos;
     private Dialog mFullScreenDialog;
     private boolean mExoPlayerFullscreen;
+    private boolean playWhenReady = true;
 
     public StepDetailsFragment() {
         // Required empty public constructor
@@ -102,10 +105,12 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
 
         if (null != savedInstanceState) {
             currentPlayerPos = savedInstanceState.getLong("position");
+            playWhenReady = savedInstanceState.getBoolean("play_when_ready");
+            //bufferedPos = savedInstanceState.getLong("buffered_position");
         } else {
             currentPlayerPos = 0;
+            //bufferedPos = 0;
         }
-
         populateDetails(step);
 
         return view;
@@ -143,6 +148,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         super.onActivityCreated(savedInstanceState);
         if (null != savedInstanceState)
             currentPlayerPos = savedInstanceState.getLong("position");
+            //bufferedPos = savedInstanceState.getLong("buffered_position");
     }
 
     /**
@@ -159,7 +165,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
             exoPlayer.seekTo(currentPlayerPos);
             exoPlayerView.setPlayer(exoPlayer);
-
+            exoPlayer.setPlayWhenReady(playWhenReady);
             exoPlayer.addListener(this);
 
             //Prepare the MediaSource using DefaultDataSourceFactory and DefaultExtractorsFactory, as well as the Sample URI you passed in.
@@ -190,13 +196,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
 
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                initFullscreenDialog();
-                //openFullscreenDialog();
-                initFullscreenDialog();
-                //    if (!mExoPlayerFullscreen)
-                openFullscreenDialog();
-//            else
-//              closeFullscreenDialog();
+                if (!RecipeDetailsActivity.isTwoPaneUi){
+                    initFullscreenDialog();
+                    initFullscreenDialog();
+                    openFullscreenDialog();
+                }
             }
 
             try {
@@ -325,8 +329,9 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onPause() {
         super.onPause();
-        currentPlayerPos = exoPlayer.getCurrentPosition();
-        releasePlayer();
+       /* currentPlayerPos = exoPlayer.getCurrentPosition();
+        playWhenReady = exoPlayer.getPlayWhenReady();
+        releasePlayer();*/
     }
 
     /**
@@ -345,6 +350,14 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onResume() {
         super.onResume();
+
+        if (null != exoPlayer) {
+            currentPlayerPos = exoPlayer.getCurrentPosition();
+           // bufferedPos = exoPlayer.getBufferedPosition();
+            playWhenReady = exoPlayer.getPlayWhenReady();
+        }
+        releasePlayer();
+
         initializeMediaSession();
         try {
             initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
@@ -357,6 +370,8 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("position", currentPlayerPos);
+        //outState.putLong("buffered_position", bufferedPos);
+        outState.putBoolean("play_when_ready", playWhenReady);
     }
 
     @Override

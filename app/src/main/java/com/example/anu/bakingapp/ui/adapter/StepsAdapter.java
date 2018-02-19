@@ -80,5 +80,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsHolder> {
             }
         }
         notifyDataSetChanged();
+
     }
 }

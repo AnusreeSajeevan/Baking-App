@@ -71,17 +71,19 @@ public class RecipeDetailsActivity extends AppCompatActivity{
             recipe = recipes;
 
             getSupportActionBar().setTitle(recipes != null ? recipes.getName() : null);
+            Fragment f = fragmentManager.findFragmentById(R.id.master_list_fragment_container);
+            if(f == null) {
 
-            Fragment fragment = new RecipeDetailsFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(KEY_RECIPE, recipe);
-            fragment.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.master_list_fragment_container, fragment)
-                    .commit();
+                Fragment fragment = new RecipeDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(KEY_RECIPE, recipe);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.master_list_fragment_container, fragment)
+                        .commit();
+            }
         });
-
         viewModel.getIsAdded().observe(this, isAddedToWidget -> {
 
             if (isAddToWidgetClicked){

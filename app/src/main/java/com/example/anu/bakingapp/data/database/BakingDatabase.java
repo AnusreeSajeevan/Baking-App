@@ -27,7 +27,7 @@ public abstract class BakingDatabase extends RoomDatabase {
         if (null == newInstance){
             synchronized (LOCK){
                 newInstance = Room.databaseBuilder(context, BakingDatabase.class, DATABASE_NAME)
-//                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .build();
             }
         }
