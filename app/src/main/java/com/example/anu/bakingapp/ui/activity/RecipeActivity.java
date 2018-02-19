@@ -185,13 +185,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.R
      * @return column count
      */
     private int getColumnCount() {
-        int count;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            count = 1;
-        else
-            count = 3;
-
-        return count;
+        return getResources().getInteger(R.integer.column_count);
     }
 
     /**
