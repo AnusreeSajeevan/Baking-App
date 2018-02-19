@@ -143,11 +143,11 @@ public class BakingJsonUtils {
                 thumbnailUrl = jsonObject.getString(KEY_STEPS_THUMBNAIL_URL);
                 break;
             }
-            else if (!jsonObject.getString(KEY_STEPS_VIDEO_URL).equals("") ||
+          /*  else if (!jsonObject.getString(KEY_STEPS_VIDEO_URL).equals("") ||
                     !jsonObject.getString(KEY_STEPS_VIDEO_URL).isEmpty()){
                 thumbnailUrl = jsonObject.getString(KEY_STEPS_VIDEO_URL);
                 break;
-            }
+            }*/
         }
 
         return thumbnailUrl;

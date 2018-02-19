@@ -323,6 +323,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         releasePlayer();
     }
 
