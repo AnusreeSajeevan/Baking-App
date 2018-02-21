@@ -1,5 +1,7 @@
 package com.example.anu.bakingapp.ui;
 
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ import static com.example.anu.bakingapp.utils.Constants.KEY_STEP;
 public class StepDetailsMainFragment extends Fragment {
 
     private static final String TAG = StepDetailsMainFragment.class.getSimpleName();
+    List<Fragment> fragmentList = new ArrayList<>();
 
     private static int currentStepPos;
     @BindView(R.id.tabs)
@@ -59,7 +63,7 @@ public class StepDetailsMainFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
         if (null != getArguments()) {
-            setupViewPager(viewpager);
+                setupViewPager(viewpager);
             tabs.setupWithViewPager(viewpager);
             activateClickedTab(currentStepPos);
         }
@@ -81,6 +85,7 @@ public class StepDetailsMainFragment extends Fragment {
             Fragment fragment = new StepDetailsFragment();
             fragment.setArguments(bundle);
             adapter.addFragment(fragment, stepList.get(i).getShortDescription());
+            fragmentList.add(fragment);
         }
         viewpager.setAdapter(adapter);
     }
@@ -140,4 +145,24 @@ public class StepDetailsMainFragment extends Fragment {
         outState.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            }
+            tabs.setVisibility(View.GONE);
+        } else {
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            tabs.setVisibility(View.VISIBLE);
+        }
+    }
 }

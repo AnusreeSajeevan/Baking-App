@@ -12,12 +12,13 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
-import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
+import com.example.anu.bakingapp.utils.DisplayUtils;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -62,9 +63,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     private Step step;
     private SimpleExoPlayer exoPlayer;
     private long currentPlayerPos;
-    //private long bufferedPos;
-    private Dialog mFullScreenDialog;
-    private boolean mExoPlayerFullscreen;
     private boolean playWhenReady = true;
 
     public StepDetailsFragment() {
@@ -106,41 +104,12 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         if (null != savedInstanceState) {
             currentPlayerPos = savedInstanceState.getLong("position");
             playWhenReady = savedInstanceState.getBoolean("play_when_ready");
-            //bufferedPos = savedInstanceState.getLong("buffered_position");
         } else {
             currentPlayerPos = 0;
-            //bufferedPos = 0;
         }
         populateDetails(step);
 
         return view;
-    }
-
-    private void openFullscreenDialog() {
-
-        ((ViewGroup) exoPlayerView.getParent()).removeView(exoPlayerView);
-        mFullScreenDialog.addContentView(exoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mExoPlayerFullscreen = true;
-        mFullScreenDialog.show();
-    }
-
-    private void initFullscreenDialog() {
-
-        mFullScreenDialog = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
-            public void onBackPressed() {
-                if (mExoPlayerFullscreen)
-                    closeFullscreenDialog();
-                super.onBackPressed();
-            }
-        };
-    }
-
-    private void closeFullscreenDialog() {
-
-        ((ViewGroup) exoPlayerView.getParent()).removeView(exoPlayerView);
-        mainMediaFrame.addView(exoPlayerView);
-        mExoPlayerFullscreen = false;
-        mFullScreenDialog.dismiss();
     }
 
     @Override
@@ -148,7 +117,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         super.onActivityCreated(savedInstanceState);
         if (null != savedInstanceState)
             currentPlayerPos = savedInstanceState.getLong("position");
-            //bufferedPos = savedInstanceState.getLong("buffered_position");
     }
 
     /**
@@ -157,23 +125,20 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * @param mediaUri uri of the music sample to play
      */
     private void initializePlayer(Uri mediaUri) {
-        if (null == exoPlayer && mediaUri != null) {
 
-            //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-            exoPlayer.seekTo(currentPlayerPos);
-            exoPlayerView.setPlayer(exoPlayer);
-            exoPlayer.setPlayWhenReady(playWhenReady);
-            exoPlayer.addListener(this);
+        //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
+        TrackSelector trackSelector = new DefaultTrackSelector();
+        LoadControl loadControl = new DefaultLoadControl();
+        exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+        exoPlayer.seekTo(currentPlayerPos);
+        exoPlayerView.setPlayer(exoPlayer);
+        exoPlayer.setPlayWhenReady(playWhenReady);
+        exoPlayer.addListener(this);
 
-            //Prepare the MediaSource using DefaultDataSourceFactory and DefaultExtractorsFactory, as well as the Sample URI you passed in.
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getContext(),
-                    "BakingApp")), new DefaultExtractorsFactory(), null, null);
-            exoPlayer.prepare(mediaSource);
-            exoPlayer.setPlayWhenReady(true);
-        }
+        //Prepare the MediaSource using DefaultDataSourceFactory and DefaultExtractorsFactory, as well as the Sample URI you passed in.
+        MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getContext(),
+                "BakingApp")), new DefaultExtractorsFactory(), null, null);
+        exoPlayer.prepare(mediaSource);
     }
 
     /**
@@ -183,25 +148,12 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      */
     private void populateDetails(Step step) {
         txtDescription.setText(step.getDescription());
-        if (step.getVideoURL() == null || step.getVideoURL().equals(""))
-            exoPlayerView.setVisibility(View.GONE);
-        else {
-            exoPlayerView.setVisibility(View.VISIBLE);
-
+        setVideo();
             /*
              * set default art work
              */
             exoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.exo_controls_play));
             initializeMediaSession();
-
-
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                if (!RecipeDetailsActivity.isTwoPaneUi){
-                    initFullscreenDialog();
-                    initFullscreenDialog();
-                    openFullscreenDialog();
-                }
-            }
 
             try {
                 initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
@@ -209,7 +161,62 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
                 e.printStackTrace();
             }
         }
+
+    /**
+     * method to determine wether to show exoplayer or not
+     */
+    private void setVideo() {
+        if (step.getVideoURL() == null || step.getVideoURL().equals("")) {
+          setNoVideo();
+        }
+        else {
+            setHaveVideo();
+        }
     }
+
+    /**
+     * method to manage ui, when there is video, based on the orientation
+     */
+    private void setHaveVideo() {
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            /**
+             * In the landscape mode,
+             * make exo layer full screen
+             * make window as full screen
+             * hide description
+             */
+            ViewGroup.LayoutParams layoutParams =
+                    exoPlayerView.getLayoutParams();
+            layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
+            layoutParams.height = DisplayUtils.getDeviceHeight(getActivity());
+            exoPlayerView.setLayoutParams(layoutParams);
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            exoPlayerView.setVisibility(View.VISIBLE);
+            txtDescription.setVisibility(View.GONE);
+        }
+        else {
+            /**
+         * In the portrait mode
+         */
+            ViewGroup.LayoutParams layoutParams =
+                    exoPlayerView.getLayoutParams();
+            layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
+            layoutParams.height = (int) (9.0f / 16.0f * layoutParams.width);
+            exoPlayerView.setLayoutParams(layoutParams);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            txtDescription.setVisibility(View.VISIBLE);
+            exoPlayerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * method to display ui when there is no video available
+     */
+    private void setNoVideo() {
+        txtDescription.setVisibility(View.VISIBLE);
+        exoPlayerView.setVisibility(View.GONE);
+    }
+
 
     /**
      * method to initialize the media session. it should be MediaSessionCompat
@@ -254,6 +261,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        releasePlayer();
     }
 
     @Override
@@ -323,12 +331,13 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onDestroy() {
         super.onDestroy();
+        releasePlayer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        releasePlayer();
+        currentPlayerPos = exoPlayer.getCurrentPosition();
     }
 
     /**
@@ -347,17 +356,14 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onResume() {
         super.onResume();
-
         if (null != exoPlayer) {
             currentPlayerPos = exoPlayer.getCurrentPosition();
-           // bufferedPos = exoPlayer.getBufferedPosition();
             playWhenReady = exoPlayer.getPlayWhenReady();
         }
         releasePlayer();
-
-        initializeMediaSession();
         try {
             initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
+            initializeMediaSession();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -367,7 +373,17 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("position", currentPlayerPos);
-        //outState.putLong("buffered_position", bufferedPos);
         outState.putBoolean("play_when_ready", playWhenReady);
     }
+
+    /**
+     * method called when configuration changes
+     * @param newConfig
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setVideo();
+    }
+
 }
