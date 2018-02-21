@@ -58,7 +58,7 @@ public class BakingJsonUtils {
 
     /**
      * method to parse recipe details to get ingredients and steps
-     * @param recipeId idod the recipe
+     * @param recipeId id of the recipe
      * @param ingredients
      *
 //    public static /*List<Ingredient>*/

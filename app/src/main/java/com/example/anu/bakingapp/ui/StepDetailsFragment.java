@@ -1,6 +1,5 @@
 package com.example.anu.bakingapp.ui;
 
-import android.app.Dialog;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.ui.activity.RecipeDetailsActivity;
 import com.example.anu.bakingapp.utils.DisplayUtils;
 import com.example.anu.bakingapp.utils.NetworkUtils;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -79,9 +79,8 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     }
 
 
-    /**
+    /*
      * store the instance variables based on the arguments passed
-     *
      * @param savedInstanceState
      */
     @Override
@@ -141,9 +140,8 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         exoPlayer.prepare(mediaSource);
     }
 
-    /**
+    /*
      * method to populate step details
-     *
      * @param step
      */
     private void populateDetails(Step step) {
@@ -174,38 +172,45 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         }
     }
 
-    /**
+    /*
      * method to manage ui, when there is video, based on the orientation
      */
     private void setHaveVideo() {
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            /**
+        if(RecipeDetailsActivity.isTwoPaneUi){
+            exoPlayerView.setVisibility(View.VISIBLE);
+            txtDescription.setVisibility(View.GONE);
+        }
+        else {
+
+            if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            /*
              * In the landscape mode,
              * make exo layer full screen
              * make window as full screen
              * hide description
              */
-            ViewGroup.LayoutParams layoutParams =
-                    exoPlayerView.getLayoutParams();
-            layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
-            layoutParams.height = DisplayUtils.getDeviceHeight(getActivity());
-            exoPlayerView.setLayoutParams(layoutParams);
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            exoPlayerView.setVisibility(View.VISIBLE);
-            txtDescription.setVisibility(View.GONE);
-        }
-        else {
-            /**
+                ViewGroup.LayoutParams layoutParams =
+                        exoPlayerView.getLayoutParams();
+                layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
+                layoutParams.height = DisplayUtils.getDeviceHeight(getActivity());
+                exoPlayerView.setLayoutParams(layoutParams);
+                getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                exoPlayerView.setVisibility(View.VISIBLE);
+                txtDescription.setVisibility(View.GONE);
+            }
+            else {
+            /*
          * In the portrait mode
          */
-            ViewGroup.LayoutParams layoutParams =
-                    exoPlayerView.getLayoutParams();
-            layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
-            layoutParams.height = (int) (9.0f / 16.0f * layoutParams.width);
-            exoPlayerView.setLayoutParams(layoutParams);
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            txtDescription.setVisibility(View.VISIBLE);
-            exoPlayerView.setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams layoutParams =
+                        exoPlayerView.getLayoutParams();
+                layoutParams.width = DisplayUtils.getDeviceWidth(getActivity());
+                layoutParams.height = (int) (9.0f / 16.0f * layoutParams.width);
+                exoPlayerView.setLayoutParams(layoutParams);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                txtDescription.setVisibility(View.VISIBLE);
+                exoPlayerView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -376,7 +381,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         outState.putBoolean("play_when_ready", playWhenReady);
     }
 
-    /**
+    /*
      * method called when configuration changes
      * @param newConfig
      */

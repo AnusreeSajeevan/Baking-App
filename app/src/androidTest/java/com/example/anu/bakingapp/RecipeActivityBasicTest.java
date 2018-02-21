@@ -7,7 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.anu.bakingapp.ui.activity.RecipeActivity;
 import com.example.anu.bakingapp.ui.viewmodel.RecipeViewModel;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

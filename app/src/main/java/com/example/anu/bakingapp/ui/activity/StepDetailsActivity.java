@@ -1,7 +1,6 @@
 package com.example.anu.bakingapp.ui.activity;
 
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -9,14 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
-import com.example.anu.bakingapp.utils.DisplayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +56,11 @@ public class StepDetailsActivity extends AppCompatActivity {
     }
 
     private void setupFragment(Bundle savedInstanceState, int stepIndex) {
-        Log.d("NewCheckinggggg","setupFragment");
         if (getSupportActionBar() != null) {
-            Log.d("NewCheckinggggg","if 1");
             getSupportActionBar().setTitle(steps.get(stepIndex).getShortDescription());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Log.d("NewCheckinggggg","if 2");
                 getSupportActionBar().hide();
             }
         }
