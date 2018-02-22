@@ -181,7 +181,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             txtDescription.setVisibility(View.GONE);
         }
         else {
-
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             /*
              * In the landscape mode,
@@ -336,13 +335,14 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        releasePlayer();
+       // releasePlayer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         currentPlayerPos = exoPlayer.getCurrentPosition();
+        releasePlayer();
     }
 
     /**
@@ -365,7 +365,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             currentPlayerPos = exoPlayer.getCurrentPosition();
             playWhenReady = exoPlayer.getPlayWhenReady();
         }
-        releasePlayer();
+//        releasePlayer();
         try {
             initializePlayer(NetworkUtils.buildVideoUri(step.getVideoURL()));
             initializeMediaSession();
