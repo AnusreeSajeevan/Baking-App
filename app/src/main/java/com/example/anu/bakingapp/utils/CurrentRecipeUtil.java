@@ -34,7 +34,7 @@ public class CurrentRecipeUtil {
     public void setLatestRecipeDetails(int recipeId, String recipeName) {
         editor.putInt(KEY_RECIPE_ID, recipeId);
         editor.putString(KEY_RECIPE_NAME, recipeName);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean getKeyIsStoragePermissionGranted() {
@@ -43,7 +43,7 @@ public class CurrentRecipeUtil {
 
     public void setPermissionGranted(boolean havePermission) {
         editor.putBoolean(KEY_HAVE_STORAGE_PERMISSION, havePermission);
-        editor.commit();
+        editor.apply();
     }
 
 }

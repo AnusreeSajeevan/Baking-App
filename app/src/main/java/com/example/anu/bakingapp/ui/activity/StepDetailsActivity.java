@@ -42,6 +42,7 @@ public class StepDetailsActivity extends AppCompatActivity {
                 getResources().getString(R.string.steps));
 
 
+
         if (null == savedInstanceState){
             Fragment fragment = new StepDetailsMainFragment();
             Bundle bundle = new Bundle();
@@ -57,7 +58,7 @@ public class StepDetailsActivity extends AppCompatActivity {
 
     private void setupFragment(Bundle savedInstanceState, int stepIndex) {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(steps.get(stepIndex).getShortDescription());
+            getSupportActionBar().setTitle(recipeName  + " " + getResources().getString(R.string.steps));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

@@ -124,20 +124,21 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      * @param mediaUri uri of the music sample to play
      */
     private void initializePlayer(Uri mediaUri) {
+        if(exoPlayer == null){
+            //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+            exoPlayer.seekTo(currentPlayerPos);
+            exoPlayerView.setPlayer(exoPlayer);
+            exoPlayer.setPlayWhenReady(playWhenReady);
+            exoPlayer.addListener(this);
 
-        //Instantiate a SimpleExoPlayer object using DefaultTrackSelector and DefaultLoadControl.
-        TrackSelector trackSelector = new DefaultTrackSelector();
-        LoadControl loadControl = new DefaultLoadControl();
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-        exoPlayer.seekTo(currentPlayerPos);
-        exoPlayerView.setPlayer(exoPlayer);
-        exoPlayer.setPlayWhenReady(playWhenReady);
-        exoPlayer.addListener(this);
-
-        //Prepare the MediaSource using DefaultDataSourceFactory and DefaultExtractorsFactory, as well as the Sample URI you passed in.
-        MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getContext(),
-                "BakingApp")), new DefaultExtractorsFactory(), null, null);
-        exoPlayer.prepare(mediaSource);
+            //Prepare the MediaSource using DefaultDataSourceFactory and DefaultExtractorsFactory, as well as the Sample URI you passed in.
+            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getContext(),
+                    "BakingApp")), new DefaultExtractorsFactory(), null, null);
+            exoPlayer.prepare(mediaSource);
+        }
     }
 
     /*
