@@ -25,7 +25,6 @@
         </activity>
         <activity android:name=".ui.activity.RecipeDetailsActivity" />
         <activity android:name=".ui.activity.StepDetailsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|layoutDirection"
             />
 
         <receiver android:name=".data.RecipeWidgetProvider">

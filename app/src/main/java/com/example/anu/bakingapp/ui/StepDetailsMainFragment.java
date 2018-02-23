@@ -1,5 +1,6 @@
 package com.example.anu.bakingapp.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,9 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
+import com.example.anu.bakingapp.ui.activity.StepDetailsActivity;
+import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +33,11 @@ import static com.example.anu.bakingapp.utils.Constants.EXTRA_STEPS;
 import static com.example.anu.bakingapp.utils.Constants.KEY_PAGE;
 import static com.example.anu.bakingapp.utils.Constants.KEY_STEP;
 
-public class StepDetailsMainFragment extends Fragment {
+public class StepDetailsMainFragment extends Fragment implements StepDetailsActivity.OrientationCallbacks{
 
     private static final String TAG = StepDetailsMainFragment.class.getSimpleName();
     List<Fragment> fragmentList = new ArrayList<>();
+    private CurrentRecipeUtil currentRecipeUtil;
 
     private static int currentStepPos;
     @BindView(R.id.tabs)
@@ -42,6 +47,7 @@ public class StepDetailsMainFragment extends Fragment {
     private List<Step> stepList = new ArrayList<>();
     private Unbinder unbinder;
     private boolean isTabletView;
+    public static StepDetailsActivity.OrientationCallbacks orientationCallbacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,18 +65,24 @@ public class StepDetailsMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_step_details_main_new, container, false);
-
+        currentRecipeUtil = new CurrentRecipeUtil(getActivity());
+        orientationCallbacks = StepDetailsActivity.orientationCallbacks;
         unbinder = ButterKnife.bind(this, view);
         if (null != getArguments()) {
-                setupViewPager(viewpager);
+            setupViewPager(viewpager);
             tabs.setupWithViewPager(viewpager);
             activateClickedTab(currentStepPos);
         }
         return view;
     }
 
+
     public void activateClickedTab(int pos) {
         tabs.getTabAt(currentStepPos).select();
+        if (currentRecipeUtil.getKeyOrientation() == Configuration.ORIENTATION_LANDSCAPE)
+            tabs.setVisibility(View.GONE);
+        else
+            tabs.setVisibility(View.VISIBLE);
     }
 
     private void setupViewPager(ViewPager viewpager) {
@@ -87,6 +99,11 @@ public class StepDetailsMainFragment extends Fragment {
             fragmentList.add(fragment);
         }
         viewpager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onOrientationChange() {
+        Toast.makeText(getActivity(),"Change",Toast.LENGTH_SHORT).show();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -144,7 +161,7 @@ public class StepDetailsMainFragment extends Fragment {
         outState.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) stepList);
     }
 
-    @Override
+  /*  @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -163,5 +180,35 @@ public class StepDetailsMainFragment extends Fragment {
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             tabs.setVisibility(View.VISIBLE);
         }
+    }*/
+
+    public void handleConfiurationChanges(){
+        int orientation = currentRecipeUtil.getKeyOrientation();
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            }
+            tabs.setVisibility(View.GONE);
+        } else {
+            View decorView = getActivity().getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            tabs.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

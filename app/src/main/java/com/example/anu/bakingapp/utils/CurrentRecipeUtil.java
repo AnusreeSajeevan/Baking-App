@@ -11,6 +11,7 @@ public class CurrentRecipeUtil {
     private static final String KEY_RECIPE_ID = "recipe_id";
     private static final String KEY_RECIPE_NAME = "recipe_name";
     private static final String KEY_HAVE_STORAGE_PERMISSION = "have_storage_permission";
+    private static final String KEY_ORIENTATION = "orientation";
 
     private static SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
@@ -46,4 +47,13 @@ public class CurrentRecipeUtil {
         editor.apply();
     }
 
+    public int getKeyOrientation() {
+        //1 : portrait, 2 : landscape
+        return preferences.getInt(KEY_ORIENTATION, 1);
+    }
+
+    public void setOrientation(int orientation) {
+        editor.putInt(KEY_ORIENTATION, orientation);
+        editor.apply();
+    }
 }

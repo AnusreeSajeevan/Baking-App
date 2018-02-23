@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.anu.bakingapp.R;
 import com.example.anu.bakingapp.data.Step;
 import com.example.anu.bakingapp.ui.StepDetailsMainFragment;
+import com.example.anu.bakingapp.utils.CurrentRecipeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class StepDetailsActivity extends AppCompatActivity {
     private int clickedPos;
     private String recipeName;
     private static final String TAG = StepDetailsActivity.class.getSimpleName();
+    private CurrentRecipeUtil currentRecipeUtil;
+    public static OrientationCallbacks orientationCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,10 @@ public class StepDetailsActivity extends AppCompatActivity {
         steps = getIntent().getParcelableArrayListExtra(EXTRA_STEPS);
         clickedPos = getIntent().getIntExtra(EXTRA_CLICKED_POS, -1);
         recipeName = getIntent().getStringExtra(EXTRA_RECIPE_NAME);
+
+        currentRecipeUtil = new CurrentRecipeUtil(this);
+        setOrientation();
+
         setupFragment(savedInstanceState, clickedPos);
        /* getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(recipeName  + " " +
@@ -56,6 +64,27 @@ public class StepDetailsActivity extends AppCompatActivity {
         }*/
     }
 
+    public interface OrientationCallbacks{
+        void onOrientationChange();
+    }
+
+
+    /**
+     * method to set the orientation
+     */
+    private void setOrientation() {
+        currentRecipeUtil.setOrientation(getResources().getConfiguration().orientation);
+        orientationCallbacks = new OrientationCallbacks() {
+            @Override
+            public void onOrientationChange() {
+                Toast.makeText(StepDetailsActivity.this, "Changes",Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+        orientationCallbacks.onOrientationChange();
+    }
+
     private void setupFragment(Bundle savedInstanceState, int stepIndex) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(recipeName  + " " + getResources().getString(R.string.steps));
@@ -65,9 +94,8 @@ public class StepDetailsActivity extends AppCompatActivity {
                 getSupportActionBar().hide();
             }
         }
-
+        Fragment fragment = new StepDetailsMainFragment();
         if (null == savedInstanceState){
-            Fragment fragment = new StepDetailsMainFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(EXTRA_STEPS, (ArrayList<? extends Parcelable>) steps);
             bundle.putInt(EXTRA_CLICKED_POS, stepIndex);
@@ -77,18 +105,6 @@ public class StepDetailsActivity extends AppCompatActivity {
                     replace(R.id.container_main, fragment)
                     .commit();
         }
-
-/*
-
-        if (savedInstanceState != null) {
-            fragment = (StepDetailsMainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "StepDetailsMainFragment");
-        } else {
-            fragment = StepDetailsMainFragment.newInstance(steps.get(stepIndex), false);
-        }
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rl_container, fragment)
-                .commit();*/
     }
 
     @Override
@@ -100,5 +116,4 @@ public class StepDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
