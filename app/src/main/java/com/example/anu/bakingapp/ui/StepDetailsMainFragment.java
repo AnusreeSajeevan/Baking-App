@@ -66,7 +66,7 @@ public class StepDetailsMainFragment extends Fragment implements StepDetailsActi
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_step_details_main_new, container, false);
         currentRecipeUtil = new CurrentRecipeUtil(getActivity());
-        orientationCallbacks = StepDetailsActivity.orientationCallbacks;
+//        orientationCallbacks = StepDetailsActivity.orientationCallbacks;
         unbinder = ButterKnife.bind(this, view);
         if (null != getArguments()) {
             setupViewPager(viewpager);

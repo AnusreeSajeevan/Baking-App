@@ -30,7 +30,7 @@ public class StepDetailsActivity extends AppCompatActivity {
     private String recipeName;
     private static final String TAG = StepDetailsActivity.class.getSimpleName();
     private CurrentRecipeUtil currentRecipeUtil;
-    public static OrientationCallbacks orientationCallbacks;
+//    public static OrientationCallbacks orientationCallbacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class StepDetailsActivity extends AppCompatActivity {
      */
     private void setOrientation() {
         currentRecipeUtil.setOrientation(getResources().getConfiguration().orientation);
-        orientationCallbacks = new OrientationCallbacks() {
+       /* orientationCallbacks = new OrientationCallbacks() {
             @Override
             public void onOrientationChange() {
                 Toast.makeText(StepDetailsActivity.this, "Changes",Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class StepDetailsActivity extends AppCompatActivity {
             }
         };
 
-        orientationCallbacks.onOrientationChange();
+        orientationCallbacks.onOrientationChange();*/
     }
 
     private void setupFragment(Bundle savedInstanceState, int stepIndex) {

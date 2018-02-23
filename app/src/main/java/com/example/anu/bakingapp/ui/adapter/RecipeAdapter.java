@@ -56,11 +56,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
          */
         String imgUrl;
         if (!recipe.getImage().equals("")) {
-            Log.d("CheckPathimagee","if");
             imgUrl = recipe.getImage();
         }
         else {
-            Log.d("CheckPathimagee","else");
             imgUrl = recipe.getThumbnailPath();
         }
 

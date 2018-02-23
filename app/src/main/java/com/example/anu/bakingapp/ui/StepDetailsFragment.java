@@ -178,8 +178,11 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
      */
     private void setHaveVideo() {
         if(RecipeDetailsActivity.isTwoPaneUi){
-            exoPlayerView.setVisibility(View.VISIBLE);
-            txtDescription.setVisibility(View.GONE);
+            if (exoPlayerView!=null)
+                exoPlayerView.setVisibility(View.VISIBLE);
+
+            if (txtDescription!=null)
+                txtDescription.setVisibility(View.GONE);
         }
         else {
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
