@@ -15,14 +15,16 @@ public class Recipe implements Parcelable{
 
     private String thumbnailPath;
     private int servings;
+    private String image;
 
-    public Recipe(int id, String name, String ingredients, String steps, String thumbnailPath, int servings) {
+    public Recipe(int id, String name, String ingredients, String steps, String thumbnailPath, int servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
         this.thumbnailPath = thumbnailPath;
         this.steps = steps;
         this.servings = servings;
+        this.image = image;
     }
 
     protected Recipe(Parcel in) {
@@ -101,6 +103,14 @@ public class Recipe implements Parcelable{
         this.servings = servings;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -109,5 +119,6 @@ public class Recipe implements Parcelable{
         parcel.writeString(thumbnailPath);
         parcel.writeString(steps);
         parcel.writeInt(servings);
+        parcel.writeString(image);
     }
 }

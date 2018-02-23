@@ -34,6 +34,7 @@ public class BakingJsonUtils {
     private static final String KEY_STEPS_VIDEO_URL= "videoURL";
     private static final String KEY_STEPS_THUMBNAIL_URL= "thumbnailURL";
     private static final String KEY_SERVINGS= "servings";
+    private static final String KEY_IMAGE= "image";
 
 
     /**
@@ -121,7 +122,8 @@ public class BakingJsonUtils {
                 recipeArrayList.add(new Recipe(jsonObject.getInt(KEY_RECIPE_ID),
                         jsonObject.getString(KEY_RECIPE_NAME),
                         jsonObject.getJSONArray(KEY_INGREDIENTS_ARRAY).toString(),
-                        jsonObject.getJSONArray(KEY_STEPS_ARRAY).toString(), thumbnailPath, jsonObject.getInt(KEY_SERVINGS)));
+                        jsonObject.getJSONArray(KEY_STEPS_ARRAY).toString(), thumbnailPath, jsonObject.getInt(KEY_SERVINGS),
+                        jsonObject.getString(KEY_IMAGE)));
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

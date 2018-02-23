@@ -2,6 +2,7 @@ package com.example.anu.bakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
         holder.txtRecipeName.setText(recipe.getName());
         holder.txtServings.setText(String.valueOf(recipe.getServings()));
 
-       setImageThumbnail(holder, recipe.getThumbnailPath());
+        /**
+         * check to handle recipe image
+         */
+        String imgUrl;
+        if (!recipe.getImage().equals("")) {
+            Log.d("CheckPathimagee","if");
+            imgUrl = recipe.getImage();
+        }
+        else {
+            Log.d("CheckPathimagee","else");
+            imgUrl = recipe.getThumbnailPath();
+        }
+
+
+       setImage(holder, imgUrl);
 
 
         boolean isExists = isFilePresent("tmp_recipe_thumb"+recipe.getId());
@@ -87,7 +102,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeHolder> {
         notifyDataSetChanged();
     }
 
-    private void setImageThumbnail(final RecipeHolder holder, String url) {
+    private void setImage(final RecipeHolder holder, String url) {
         GlideApp.with(holder.imgBack)
                 .load(url)
                 .error(R.drawable.thumbnail_placeholder)
